@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "ng build --output-path=dist/pawwi --base-href https://pawwilead.github.io/pawwi/ && npx angular-cli-ghpages --dir=dist/pawwi/browser"
   },
   "private": true,
   "dependencies": {

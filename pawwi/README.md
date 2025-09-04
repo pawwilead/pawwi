@@ -1,27 +1,36 @@
-# Pawwi
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp8B9HmOQMJSOdFpBzC0YJXoXjHlS-QizdZg&s" alt="Pawwi Logo" width="120"/>
+</p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.1.
+<h1 align="center">Pawwi</h1>
+<p align="center"><i>Cuidadores confiables de mascotas en tu zona 🐶🐱</i></p>
 
-## Development server
+<p align="center">
+  🌐 <a href="https://pawwi.co">Página oficial</a> | 
+  🚀 <a href="https://pawwilead.github.io/pawwi/">Versión en GitHub Pages</a>
+</p>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## 📌 Sobre el proyecto
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Este es el código fuente de la aplicación web de **Pawwi**, desarrollada con [Angular](https://angular.io/).  
+Aquí se encuentran las vistas principales del sitio y el despliegue en **GitHub Pages**.
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 🖥️ Requisitos del PC para editar el sitio
 
-## Running unit tests
+Para trabajar en este proyecto, asegúrate de tener instalado:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- [Node.js](https://nodejs.org/) **v18 o superior**
+- [npm](https://www.npmjs.com/) (se instala junto con Node.js)
+- [Angular CLI](https://angular.io/cli) **v16+**
+- Un editor de código (recomendado: [Visual Studio Code](https://code.visualstudio.com/))
 
-## Running end-to-end tests
+Verifica las versiones instaladas con:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+node -v
+npm -v
+ng version
