@@ -1,0 +1,69 @@
+<div class="layout">
+  <div class="content">
+    <h1>Gestión de Usuarios</h1>
+
+    <div class="filters">
+      <label>
+        Tipo de usuario:
+        <select [(ngModel)]="filtroTipo">
+          <option value="todos">Todos</option>
+          <option value="cliente">Cliente</option>
+          <option value="pawwer">Pawwer</option>
+        </select>
+      </label>
+
+      <label>
+        Buscar por:
+        <select [(ngModel)]="criterioBusqueda">
+          <option value="_id">ID</option>
+          <option value="celular">Celular</option>
+          <option value="nombre">Nombre</option>
+        </select>
+      </label>
+
+      <input type="text" [(ngModel)]="textoBusqueda" placeholder="🔍 Buscar..." />
+    </div>
+
+    <div class="usuarios-grid">
+      @for (u of usuariosFiltrados; track u._id) {
+        <div class="usuario-card">
+          <div class="card-header" (click)="abrirUsuario(u._id)">
+            <div>
+              <h2>{{ u.nombre }}</h2>
+              <small>Celular: {{ u.celular }}</small>
+            </div>
+            <button class="toggle-btn">
+              {{ toggleUsuarioOpen === u._id ? '▲' : '▼' }}
+            </button>
+          </div>
+
+          <div class="card-body" *ngIf="toggleUsuarioOpen === u._id">
+            <div class="info">
+              <p><strong>Id:</strong> {{ u._id }}</p>
+              <p><strong>TipoUsuario:</strong> {{ u.tipoUsuario }}</p>
+              <p><strong>Dirección:</strong> {{ u.direccion || 'No registrada' }}</p>
+            </div>
+
+            <div class="perros">
+              <h4 (click)="abrirPerros(u._id)">
+                Perros ({{ u.perros.length }})
+                <span class="toggle-icon">
+                  {{ togglePerrosOpen === u._id ? '▲' : '▼' }}
+                </span>
+              </h4>
+              <ul *ngIf="togglePerrosOpen === u._id">
+                @for (perro of u.perros; track perro) {
+                  <li>{{ perro }}</li>
+                }
+              </ul>
+            </div>
+
+            <small class="fecha">
+              🗓️ Usuario creado: {{ u.creadoEn | date:'mediumDate' }}
+            </small>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

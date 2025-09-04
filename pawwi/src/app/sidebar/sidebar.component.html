@@ -1,0 +1,12 @@
+<nav class="sidebar">
+  <h1 class="logo">🐾 Pawwi</h1>
+  <ul>
+    @for (item of menuItems; track item.label) {
+      <li>
+        <a [routerLink]="item.route" routerLinkActive="active">
+          <span class="icon">{{ item.icon }}</span> {{ item.label }}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>
