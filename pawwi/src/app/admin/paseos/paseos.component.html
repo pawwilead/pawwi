@@ -1,0 +1,101 @@
+<div class="paseos-container">
+  <h1>Paseos por Agendar</h1>
+
+  <!-- 🔘 Botones de estados -->
+  <div class="tabs">
+    <button 
+      class="tab" 
+      [class.active]="filtroEstado === ''"
+      (click)="filtroEstado = ''">
+      Todos
+    </button>
+    <button 
+      class="tab" 
+      *ngFor="let e of estados" 
+      [class.active]="filtroEstado === e"
+      (click)="filtroEstado = e">
+      {{ e }}
+    </button>
+  </div>
+
+  <!-- 🔎 Filtros -->
+  <div class="filters">
+    <label>
+      Buscar por:
+      <select [(ngModel)]="criterioBusqueda">
+        <option value="nombre">Nombre</option>
+        <option value="celular">Celular</option>
+        <option value="direccion">Dirección</option>
+        <option value="estado">Estado</option>
+      </select>
+    </label>
+
+    <input
+      type="text"
+      [(ngModel)]="textoBusqueda"
+      placeholder="🔍 Buscar..."
+    />
+  </div>
+
+  
+
+  <!-- Grid de paseos -->
+  <div *ngFor="let paseo of paseosFiltrados; trackBy: trackById" class="paseo-card">
+    <!-- Header -->
+    <div class="header" (click)="abrirPaseo(paseo._id)">
+      <div>
+        <h2>{{ paseo.nombre }} - {{ paseo.perro }}</h2>
+        <p class="subinfo">📞 {{ paseo.celular }}</p>
+        <p class="subinfo">📍 {{ paseo.direccion }}</p>
+      </div>
+      <span class="estado">{{ paseo.estado }}</span>
+    </div>
+
+    <!-- Body (toggle) -->
+    <div *ngIf="toggleOpen === paseo._id" class="body">
+      <p><strong>Servicio:</strong> {{ paseo.tipoServicio }} - {{ paseo.tiempoServicio }}</p>
+      <p><strong>Fecha:</strong> {{ paseo.fecha }}</p>
+      <p><strong>Hora:</strong> {{ paseo.hora }}</p>
+      <p><strong>Precio:</strong> {{ paseo.precio | currency:'USD' }}</p>
+      <p><strong>Método de pago:</strong> {{ paseo.metodoPago }}</p>
+      <p><strong>Creado:</strong> {{ paseo.fechaCreacion | date:'short' }}</p>
+
+      <div class="anotaciones">
+        {{ paseo.anotaciones }}
+      </div>
+
+      <!-- Editor -->
+      <div class="editor">
+        <label>
+          Fecha (DD/MM)
+          <input type="date" [(ngModel)]="paseo.nuevaFecha" />
+        </label>
+
+        <label>
+          Hora (24h)
+          <input type="time" [(ngModel)]="paseo.nuevaHora" />
+        </label>
+
+        <label>
+          Estado
+          <select [(ngModel)]="paseo.nuevoEstado">
+            <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
+          </select>
+        </label>
+
+        <label>
+          Número Pawwer
+          <input type="number" [(ngModel)]="paseo.nuevoPawwer" />
+        </label>
+
+        <button (click)="actualizarPaseo(paseo)" class="btn btn-save">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="paseosFiltrados.length === 0" class="empty">
+    <h3>No hay paseos que coincidan con la búsqueda</h3>
+  </div>
+</div>

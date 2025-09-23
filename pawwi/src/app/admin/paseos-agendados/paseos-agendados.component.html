@@ -1,0 +1,91 @@
+<div class="paseos-container">
+  <h1>Paseos en Curso</h1>
+
+  <!-- Barra de filtros -->
+
+    <div class="tabs">
+    <button
+        class="tab"
+        [class.active]="filtroEstado === ''"
+        (click)="limpiarFiltro()">
+        Todos
+    </button>
+
+    <button
+        *ngFor="let estado of estados"
+        class="tab"
+        [class.active]="estado === filtroEstado"
+        (click)="filtrarPorEstado(estado)">
+        {{ estado }}
+    </button>
+    </div>
+
+
+  <div *ngFor="let paseo of paseosFiltrados; trackBy: trackById" class="paseo-card">
+    <!-- Header -->
+    <div class="header" (click)="abrirPaseo(paseo._id)">
+      <div>
+        <h2>{{ paseo.Nombre }} - 🐶 {{ paseo.Perro }}</h2>
+        <p class="subinfo">📞 Cliente: {{ paseo.Celular }}</p>
+        <p class="subinfo">📍 {{ paseo.Direccion }}</p>
+      </div>
+      <span class="estado">{{ paseo.Estado }}</span>
+    </div>
+
+    <!-- Body (toggle) -->
+    <div *ngIf="toggleOpen === paseo._id" class="body">
+      <p><strong>Celular Pawwer:</strong> {{ paseo.CelularPawwer }}</p>
+      <p><strong>Pawwer:</strong> {{ paseo.NombrePawwer }}</p>
+      <p><strong>Servicio:</strong> {{ paseo.TipoServicio }} - {{ paseo.TiempoServicio }} min</p>
+      <p><strong>Fecha:</strong> {{ paseo.Fecha }}</p>
+      <p><strong>Hora:</strong> {{ paseo.Hora }}</p>
+      <p><strong>Hora Inicio:</strong> {{ paseo.HoraInicio || 'No iniciada' }}</p>
+      <p><strong>Precio:</strong> {{ paseo.Precio | currency:'USD' }}</p>
+      <p><strong>Método de pago:</strong> {{ paseo.MetodoPago }}</p>
+      <p><strong>Creado:</strong> {{ paseo.FechaCreacion | date:'short' }}</p>
+      <p><strong>Anotaciones:</strong> {{ paseo.Anotaciones }}</p>
+      <p><strong>Strava:</strong> {{ paseo.Strava || 'N/A' }}</p>
+
+      <!-- Editor -->
+      <div class="editor">
+        <label>
+          Fecha (DD/MM)
+          <input type="date" [(ngModel)]="paseo.nuevaFecha" />
+        </label>
+
+        <label>
+          Hora (24h)
+          <input type="time" [(ngModel)]="paseo.nuevaHora" />
+        </label>
+
+        <label>
+          Hora Inicio
+          <input type="time" [(ngModel)]="paseo.nuevaHoraInicio" />
+        </label>
+
+        <label>
+          Estado
+          <select [(ngModel)]="paseo.nuevoEstado">
+            <option *ngFor="let estado of estados" [value]="estado">
+              {{ estado }}
+            </option>
+          </select>
+        </label>
+
+        <label>
+          Pawwer (ID)
+          <input type="text" [(ngModel)]="paseo.nuevoPawwer" />
+        </label>
+
+        <button (click)="actualizarPaseo(paseo)" class="btn btn-save">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="paseosFiltrados.length === 0" class="empty">
+    <h3>No hay paseos en curso</h3>
+    <p>Cuando haya paseos activos, aparecerán aquí.</p>
+  </div>
+</div>

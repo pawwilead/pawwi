@@ -1,0 +1,34 @@
+<div class="paseos-container">
+  <h1>Paseos Completados</h1>
+
+  <div *ngFor="let paseo of paseos; trackBy: trackById" class="paseo-card">
+    <!-- Header -->
+    <div class="header" (click)="abrirPaseo(paseo._id)">
+      <div>
+        <h2>{{ paseo.nombre }} - 🐶 {{ paseo.perro }}</h2>
+        <p class="subinfo">📞 Cliente: {{ paseo.celular }}</p>
+        <p class="subinfo">📍 {{ paseo.direccion }}</p>
+      </div>
+      <span class="estado">{{ paseo.estado }}</span>
+    </div>
+
+    <!-- Body (toggle) -->
+    <div *ngIf="toggleOpen === paseo._id" class="body">
+      <p><strong>Servicio:</strong> {{ paseo.tipoServicio }} - {{ paseo.tiempoServicio }} min</p>
+      <p><strong>Fecha:</strong> {{ paseo.fecha }}</p>
+      <p><strong>Hora:</strong> {{ paseo.hora }}</p>
+      <p><strong>Hora Inicio:</strong> {{ paseo.horaInicio }}</p>
+      <p><strong>Hora Fin:</strong> {{ paseo.horaFin }}</p>
+      <p><strong>Precio:</strong> {{ paseo.precio | currency:'USD' }}</p>
+      <p><strong>Método de pago:</strong> {{ paseo.metodoPago }}</p>
+      <p><strong>Pawwer ID:</strong> {{ paseo.pawwer }}</p>
+      <p><strong>Ganancia Pawwer:</strong> {{ paseo.gananciaPawwer | currency:'USD' }}</p>
+      <p><strong>Completado:</strong> {{ paseo.fechaCompletado | date:'short' }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="paseos.length === 0" class="empty">
+    <h3>No hay paseos completados</h3>
+    <p>Aquí se mostrarán los que ya finalizaron.</p>
+  </div>
+</div>

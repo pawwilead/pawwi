@@ -1,13 +1,17 @@
-
 <nav class="navbar">
   <!-- Logo -->
   <div class="navbar-left">
-    <img src="assets/utils/pink.svg" alt="Logo" class="logo" />
-    <button class="btn">Usuarios</button>
+    <img 
+      src="https://pawwi.co/wp-content/uploads/2024/10/LogoPawwi.svg" 
+      alt="Logo" 
+      class="logo" 
+    />
+
+    <a routerLink="/main" routerLinkActive="active" class="btn">Usuarios</a>
     <div class="divider"></div>
-    <button class="btn">Por agendar</button>
-    <button class="btn">En proceso</button>
-    <button class="btn">Paseos completados</button>
+    <a routerLink="/leads" routerLinkActive="active" class="btn">Por agendar</a>
+    <a routerLink="/paseos" routerLinkActive="active" class="btn">En proceso</a>
+    <a routerLink="/completados" routerLinkActive="active" class="btn">Paseos completados</a>
   </div>
 
   <!-- Perfil -->
