@@ -1,69 +1,103 @@
-<div class="layout">
-  <div class="content">
-    <h1>Gestión de Usuarios</h1>
+<app-navbar></app-navbar>
 
-    <div class="filters">
-      <label>
-        Tipo de usuario:
-        <select [(ngModel)]="filtroTipo">
-          <option value="todos">Todos</option>
-          <option value="cliente">Cliente</option>
-          <option value="pawwer">Pawwer</option>
-        </select>
-      </label>
+<div class="main-container">
+  <h1>Gestión de Usuarios</h1>
 
-      <label>
-        Buscar por:
-        <select [(ngModel)]="criterioBusqueda">
-          <option value="_id">ID</option>
-          <option value="celular">Celular</option>
-          <option value="nombre">Nombre</option>
-        </select>
-      </label>
+  <!-- Tabs -->
+  <div class="tabs">
+    <button 
+      class="tab" 
+      [class.active]="filtroTipo === 'cliente'" 
+      (click)="filtroTipo = 'cliente'">
+      Clientes
+    </button>
+    <button 
+      class="tab" 
+      [class.active]="filtroTipo === 'pawwer'" 
+      (click)="filtroTipo = 'pawwer'">
+      Pawwers
+    </button>
+  </div>
 
-      <input type="text" [(ngModel)]="textoBusqueda" placeholder="🔍 Buscar..." />
-    </div>
+  <!-- Filtros -->
+  <div class="filters">
+    <label>
+      Buscar por:
+      <select [(ngModel)]="criterioBusqueda">
+        <option value="_id">ID</option>
+        <option value="celular">Celular</option>
+        <option value="nombre">Nombre</option>
+      </select>
+    </label>
 
-    <div class="usuarios-grid">
-      @for (u of usuariosFiltrados; track u._id) {
-        <div class="usuario-card">
-          <div class="card-header" (click)="abrirUsuario(u._id)">
-            <div>
-              <h2>{{ u.nombre }}</h2>
-              <small>Celular: {{ u.celular }}</small>
+    <input 
+      type="text" 
+      [(ngModel)]="textoBusqueda" 
+      placeholder="🔍 Buscar..." />
+  </div>
+
+  <!-- Grid de usuarios -->
+  <div class="usuarios-grid">
+    <div 
+      class="usuario-card" 
+      *ngFor="let u of usuariosFiltrados; trackBy: trackById">
+      
+      <!-- Header de la tarjeta -->
+      <div class="card-header" (click)="abrirUsuario(u._id)">
+        <div>
+          <h2>{{ u.nombre }}</h2>
+          <small>📱 {{ u.celular }}</small>
+        </div>
+        <button class="toggle-btn">
+          {{ toggleUsuarioOpen === u._id ? '▲' : '▼' }}
+        </button>
+      </div>
+
+      <!-- Cuerpo de la tarjeta -->
+      <div class="card-body" *ngIf="toggleUsuarioOpen === u._id">
+        <div class="info">
+          <p><strong>ID:</strong> {{ u._id }}</p>
+          <p><strong>Tipo:</strong> {{ u.tipoUsuario }}</p>
+          <p><strong>Dirección:</strong> {{ u.direccion || 'No definida' }}</p>
+          <p><strong>Registro Web:</strong> {{ u.RegistroWeb }}</p>
+          <p><strong>Agendamientos:</strong> {{ u.agendamientos }}</p>
+          <small class="fecha">
+            🗓️ Registrado: {{ u.creadoEn | date:'mediumDate' }}
+          </small>
+        </div>
+
+        <!-- Lista de perros -->
+        <div class="perros">
+          <h4 (click)="abrirPerros(u._id)">
+            🐶 Perros ({{ u.perros.length }})
+            <span>
+              {{ togglePerrosOpen === u._id ? '▲' : '▼' }}
+            </span>
+          </h4>
+          <div *ngIf="togglePerrosOpen === u._id">
+            <div class="perro-card" *ngFor="let perro of u.perros">
+              <p><strong>Nombre:</strong> {{ perro.nombre }}</p>
+              <p><strong>Raza:</strong> {{ perro.raza }}</p>
+              <p><strong>Tamaño:</strong> {{ perro.tamano }}</p>
+              <p><strong>Edad:</strong> {{ perro.edad }}</p>
+              <p><strong>Vacunas:</strong> {{ perro.vacunas ? 'Sí' : 'No' }}</p>
+              <p><strong>Obs:</strong> {{ perro.observaciones }}</p>
             </div>
-            <button class="toggle-btn">
-              {{ toggleUsuarioOpen === u._id ? '▲' : '▼' }}
-            </button>
-          </div>
-
-          <div class="card-body" *ngIf="toggleUsuarioOpen === u._id">
-            <div class="info">
-              <p><strong>Id:</strong> {{ u._id }}</p>
-              <p><strong>TipoUsuario:</strong> {{ u.tipoUsuario }}</p>
-              <p><strong>Dirección:</strong> {{ u.direccion || 'No registrada' }}</p>
-            </div>
-
-            <div class="perros">
-              <h4 (click)="abrirPerros(u._id)">
-                Perros ({{ u.perros.length }})
-                <span class="toggle-icon">
-                  {{ togglePerrosOpen === u._id ? '▲' : '▼' }}
-                </span>
-              </h4>
-              <ul *ngIf="togglePerrosOpen === u._id">
-                @for (perro of u.perros; track perro) {
-                  <li>{{ perro }}</li>
-                }
-              </ul>
-            </div>
-
-            <small class="fecha">
-              🗓️ Usuario creado: {{ u.creadoEn | date:'mediumDate' }}
-            </small>
           </div>
         </div>
-      }
+        <!-- Editor de tipo de usuario -->
+        <div class="editar-tipo">
+          <label for="tipoSelect-{{u._id}}">Cambiar tipo:</label>
+          <select id="tipoSelect-{{u._id}}" [(ngModel)]="u.nuevoTipo">
+            <option value="cliente">Cliente</option>
+            <option value="pawwer">Pawwer</option>
+          </select>
+          <button class="btn-actualizar" (click)="actualizarTipo(u)">
+            Actualizar
+          </button>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

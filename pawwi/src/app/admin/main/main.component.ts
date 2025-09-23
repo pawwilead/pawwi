@@ -1,19 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { HttpClient } from '@angular/common/http';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, FormsModule, SidebarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
-  // main.component.ts
+export class MainComponent implements OnInit {
+  usuarios: any[] = [];
+  filtroTipo = 'cliente';
+  criterioBusqueda = 'nombre';
+  textoBusqueda = '';
+
   toggleUsuarioOpen: string | null = null;
   togglePerrosOpen: string | null = null;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.cargarUsuarios();
+  }
+
+  cargarUsuarios() {
+    this.http.get<any[]>('https://backendpawwi-production.up.railway.app/api/usuarios')
+      .subscribe(data => {
+        this.usuarios = data.map(u => ({
+          ...u,
+          nuevoTipo: u.tipoUsuario // 👈 se inicializa para el select
+        }));
+      });
+  }
+
+  actualizarTipo(usuario: any) {
+    this.http.put(`https://backendpawwi-production.up.railway.app/api/usuarios/${usuario._id}`, {
+      tipoUsuario: usuario.nuevoTipo
+    }).subscribe(res => {
+      usuario.tipoUsuario = usuario.nuevoTipo;
+      alert(`✅ Usuario ${usuario.nombre} ahora es ${usuario.tipoUsuario}`);
+    });
+  }
+
+  get usuariosFiltrados() {
+    return this.usuarios.filter(u => {
+      const coincideTipo = this.filtroTipo === 'todos' || u.tipoUsuario === this.filtroTipo;
+      const valor = (u as any)[this.criterioBusqueda]?.toString().toLowerCase() || '';
+      const coincideBusqueda = valor.includes(this.textoBusqueda.toLowerCase());
+      return coincideTipo && coincideBusqueda;
+    });
+  }
 
   abrirUsuario(id: string) {
     this.toggleUsuarioOpen = this.toggleUsuarioOpen === id ? null : id;
@@ -23,39 +62,7 @@ export class MainComponent {
     this.togglePerrosOpen = this.togglePerrosOpen === id ? null : id;
   }
 
-  usuarios = [
-    {
-      _id: '6879af4275d4542d0598b305',
-      celular: '573023835142',
-      nombre: 'Juan Diego Echeverry',
-      tipoUsuario: 'cliente',
-      direccion: 'Calle 160 #14b - 42',
-      perros: ['Max', 'Luna', 'Rocky'],
-      agendamientos: 0,
-      creadoEn: new Date('2025-07-18T02:19:46.840Z')
-    },
-    {
-      _id: '6879b0224314c9a071a3c08d',
-      celular: '573332885462',
-      nombre: 'Pawwer de soporte',
-      tipoUsuario: 'pawwer',
-      direccion: 'Carrera 45 #100 - 21',
-      perros: [],
-      agendamientos: 0,
-      creadoEn: new Date('2025-08-01T10:12:00.000Z')
-    }
-  ];
-
-  filtroTipo: string = 'todos';
-  criterioBusqueda: string = 'nombre';
-  textoBusqueda: string = '';
-
-  get usuariosFiltrados() {
-    return this.usuarios.filter(u => {
-      const coincideTipo = this.filtroTipo === 'todos' || u.tipoUsuario === this.filtroTipo;
-      const valor = (u as any)[this.criterioBusqueda]?.toString().toLowerCase() || '';
-      const coincideBusqueda = valor.includes(this.textoBusqueda.toLowerCase());
-      return coincideTipo && coincideBusqueda;
-    });
+  trackById(index: number, item: any) {
+    return item._id;
   }
 }

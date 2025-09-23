@@ -1,138 +1,115 @@
-.content {
-  flex: 1;
-  padding: 2rem;
-  background: #FFF1EB;
-  color: #120A2B;
-  height: 100vh;
-  width: 100vw;
-
-  h1 {
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: 600;
-  }
-
-  .filters {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-
-    label {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #120A2B;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    input, select {
-      padding: 0.6rem 0.8rem;
-      border: 1px solid #d0d0d0;
-      border-radius: 0.5rem;
-      background: #fff;
-      font-size: 0.9rem;
-
-      &:focus {
-        outline: 2px solid #F7AEF1;
-      }
-    }
-  }
-
-  .usuarios-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .usuario-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 0.8rem;
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(18, 10, 43, 0.08);
-    overflow: hidden;
-
-    .card-header {
-      cursor: pointer;
-      padding: 1rem 1.2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #120A2B;
-      color: #FFF1EB;
-
-      h2 {
-        margin: 0;
-        font-size: 1.2rem;
-        font-weight: 500;
-      }
-
-      small {
-        font-size: 0.75rem;
-        opacity: 0.7;
-      }
-
-      .toggle-btn {
-        border: none;
-        background: #F7AEF1;
-        color: #120A2B;
-        border-radius: 0.4rem;
-        padding: 0.2rem 0.6rem;
-        font-size: 0.8rem;
-        cursor: pointer;
-      }
-    }
-
-    .card-body {
-      padding: 1.2rem;
-      background: #fff;
-      animation: fadeIn 0.3s ease;
-
-      .info p {
-        margin: 0.4rem 0;
-        font-size: 0.95rem;
-      }
-
-      .perros {
-
-        h4 {
-          cursor: pointer;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 1rem;
-          font-weight: 500;
-          padding: 0.4rem 0;
-          margin: 0;
-          border-bottom: 1px solid #eaeaea;
-        }
-
-        ul {
-          margin: 0.5rem 0 0 1.2rem;
-          padding: 0;
-          list-style-type: disc;
-          font-size: 0.9rem;
-        }
-      }
-
-      .fecha {
-        display: block;
-        margin-top: 1rem;
-        font-size: 0.8rem;
-        opacity: 0.6;
-      }
-    }
-  }
+.main-container {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
+h1 {
+  margin-bottom: 20px;
+  color: #120A2B;
+}
+
+/* Tabs */
+.tabs {
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #f2f2f2;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.tab.active {
+  background: #F7AEF1;
+  margin: 0 10px;
+  color: #120A2B;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Filtros */
+.filters {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.filters input, 
+.filters select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Tarjetas */
+.usuarios-grid {
+  flex-direction: column;
+  gap: 15px;
+}
+.usuario-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  margin: 5px;
+  background: #F7AEF1;
+  cursor: pointer;
+}
+.card-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #120A2B;
+}
+.card-body {
+  padding: 12px 16px;
+  background: #fafafa;
+}
+.info p {
+  margin: 4px 0;
+}
+.perros {
+  margin-top: 10px;
+}
+.perro-card {
+  margin: 8px 0;
+  padding: 10px;
+  border-left: 3px solid #F7AEF1;
+  background: #fff;
+  border-radius: 6px;
+}
+
+.editar-tipo {
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  select {
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .btn-actualizar {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    background: #120A2B;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .btn-actualizar:hover {
+    background: #F7AEF1;
+    color: #120A2B;
   }
 }
