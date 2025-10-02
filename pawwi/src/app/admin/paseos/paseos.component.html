@@ -1,5 +1,94 @@
+<!-- Botón para abrir el popup -->
+
+
+<!-- Modal de formulario -->
+<div class="modal" *ngIf="abrirFormulario">
+  <div class="modal-content">
+    <span class="close" (click)="abrirFormulario = false">&times;</span>
+    <h3>➕ Agregar nuevo paseo</h3>
+    <div class="form-agregar">
+
+      <!-- Cliente -->
+      <label>
+        Cliente:
+        <select [(ngModel)]="nuevoPaseo.clienteId" (change)="seleccionarCliente(nuevoPaseo.clienteId)">
+          <option value="">-- Seleccione Cliente --</option>
+          <option *ngFor="let c of clientes" [value]="c._id">
+            📞 {{ c.celular }} - {{ c.nombre }}
+          </option>
+        </select>
+      </label>
+
+      <!-- Dirección -->
+      <label>
+        Dirección:
+        <input type="text" [(ngModel)]="nuevoPaseo.direccion" placeholder="Ingrese dirección" />
+      </label>
+
+      <!-- Perro -->
+      <label>
+        Perro:
+        <select [(ngModel)]="nuevoPaseo.perro" 
+                [disabled]="perrosCliente.length === 0"
+                (change)="seleccionarPerro(nuevoPaseo.perro)">
+          <option value="">-- Seleccione Perro --</option>
+          <option *ngFor="let p of perrosCliente" [value]="p.nombre">{{ p.nombre }}</option>
+        </select>
+      </label>
+
+      <!-- Tipo de servicio -->
+      <label>
+        Tipo de Servicio:
+        <input type="text" [(ngModel)]="nuevoPaseo.tipoServicio" readonly />
+      </label>
+
+      <!-- Tiempo de servicio -->
+      <label>
+        Tiempo de Servicio:
+        <select [(ngModel)]="nuevoPaseo.tiempoServicio">
+          <option *ngFor="let t of tiemposServicio" [value]="t">{{ t }}</option>
+        </select>
+      </label>
+
+      <!-- Fecha y hora -->
+      <label>
+        Fecha:
+        <input type="date" [(ngModel)]="nuevoPaseo.fecha" />
+      </label>
+      <label>
+        Hora:
+        <input type="time" [(ngModel)]="nuevoPaseo.hora" />
+      </label>
+
+      <!-- Precio -->
+      <label>
+        Precio:
+        <input type="number" [(ngModel)]="nuevoPaseo.precio" />
+      </label>
+
+      <!-- Método de pago -->
+      <label>
+        Método de Pago:
+        <select [(ngModel)]="nuevoPaseo.metodoPago">
+          <option *ngFor="let m of metodosPago" [value]="m">{{ m }}</option>
+        </select>
+      </label>
+
+      <!-- Anotaciones -->
+      <label>
+        Anotaciones:
+        <input type="text" [(ngModel)]="nuevoPaseo.anotaciones" />
+      </label>
+
+      <button (click)="agregarPaseo(); abrirFormulario = false" class="btn btn-add">Agregar Paseo</button>
+    </div>
+  </div>
+</div>
+
+
 <div class="paseos-container">
   <h1>Paseos por Agendar</h1>
+  <button class="btn btn-add" (click)="abrirFormulario = true">➕ Agregar Paseo</button>
 
   <!-- 🔘 Botones de estados -->
   <div class="tabs">

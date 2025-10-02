@@ -41,7 +41,7 @@
       *ngFor="let u of usuariosFiltrados; trackBy: trackById">
       
       <!-- Header de la tarjeta -->
-      <div class="card-header" (click)="abrirUsuario(u._id)">
+      <div class="card-header" (click)="abrirUsuario(u._id!)">
         <div>
           <h2>{{ u.nombre }}</h2>
           <small>📱 {{ u.celular }}</small>
@@ -57,32 +57,81 @@
           <p><strong>ID:</strong> {{ u._id }}</p>
           <p><strong>Tipo:</strong> {{ u.tipoUsuario }}</p>
           <p><strong>Dirección:</strong> {{ u.direccion || 'No definida' }}</p>
-          <p><strong>Registro Web:</strong> {{ u.RegistroWeb }}</p>
-          <p><strong>Agendamientos:</strong> {{ u.agendamientos }}</p>
+          <p><strong>Registro Web:</strong> {{ u.RegistroWeb || 'No definido' }}</p>
+          <p><strong>Agendamientos:</strong> {{ u.agendamientos || [] }}</p>
           <small class="fecha">
-            🗓️ Registrado: {{ u.creadoEn | date:'mediumDate' }}
+            🗓️ Registrado: {{ u.creadoEn ? (u.creadoEn | date:'mediumDate') : 'No registrado' }}
           </small>
         </div>
 
         <!-- Lista de perros -->
         <div class="perros">
-          <h4 (click)="abrirPerros(u._id)">
-            🐶 Perros ({{ u.perros.length }})
-            <span>
-              {{ togglePerrosOpen === u._id ? '▲' : '▼' }}
-            </span>
+          <h4 (click)="abrirPerros(u._id!)">
+            🐶 Perros ({{ u.perros?.length || 0 }})
+            <span>{{ togglePerrosOpen === u._id ? '▲' : '▼' }}</span>
           </h4>
+
           <div *ngIf="togglePerrosOpen === u._id">
-            <div class="perro-card" *ngFor="let perro of u.perros">
+            <!-- Tarjetas de perros -->
+            <div class="perro-card" *ngFor="let perro of u.perros; let i = index">
               <p><strong>Nombre:</strong> {{ perro.nombre }}</p>
               <p><strong>Raza:</strong> {{ perro.raza }}</p>
               <p><strong>Tamaño:</strong> {{ perro.tamano }}</p>
               <p><strong>Edad:</strong> {{ perro.edad }}</p>
               <p><strong>Vacunas:</strong> {{ perro.vacunas ? 'Sí' : 'No' }}</p>
               <p><strong>Obs:</strong> {{ perro.observaciones }}</p>
+
+              <button class="btn-edit" (click)="abrirPopupEditarPerro(u._id!, perro, i)">Editar</button>
+              <button class="btn-edit" (click)="eliminarPerro(u._id!, i)">Eliminar</button>
             </div>
+
+
+            <!-- Formulario de nuevo perro -->
+            <div class="nuevo-perro">
+              <h5 (click)="toggleNuevoPerro(u._id!)" class="toggle-nuevo">
+                ➕ Agregar nuevo perro
+                <span>{{ nuevoPerroOpen[u._id!] ? '▲' : '▼' }}</span>
+              </h5>
+
+              <div class="form-nuevo" *ngIf="nuevoPerroOpen[u._id!]">
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input [(ngModel)]="perroNuevo.nombre" placeholder="Ej: Lucky" />
+                </div>
+
+                <div class="form-group">
+                  <label>Raza</label>
+                  <input [(ngModel)]="perroNuevo.raza" placeholder="Ej: Labrador" />
+                </div>
+
+                <div class="form-group">
+                  <label>Tamaño</label>
+                  <input [(ngModel)]="perroNuevo.tamano" placeholder="Ej: Mediano" />
+                </div>
+
+                <div class="form-group">
+                  <label>Edad</label>
+                  <input [(ngModel)]="perroNuevo.edad" type="number" placeholder="Ej: 3" />
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" [(ngModel)]="perroNuevo.vacunas" /> Vacunas al día
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label>Observaciones</label>
+                  <textarea [(ngModel)]="perroNuevo.observaciones" placeholder="Ej: Muy activo, le gusta jugar"></textarea>
+                </div>
+
+                <button class="btn-save" (click)="agregarPerro(u._id!)">➕ Agregar</button>
+              </div>
+            </div>
+
           </div>
         </div>
+
         <!-- Editor de tipo de usuario -->
         <div class="editar-tipo">
           <label for="tipoSelect-{{u._id}}">Cambiar tipo:</label>
@@ -94,8 +143,52 @@
             Actualizar
           </button>
         </div>
-
       </div>
     </div>
   </div>
 </div>
+
+<!-- =================== POPUP EDITAR PERRO =================== -->
+<div class="modal" *ngIf="popupPerro">
+  <div class="modal-content">
+    <h3>✏️ Editar Perro</h3>
+    <p class="modal-subtitle">Modifica la información del perro</p>
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input [(ngModel)]="popupPerro.nombre" placeholder="Ej: Lucky" />
+    </div>
+
+    <div class="form-group">
+      <label>Raza</label>
+      <input [(ngModel)]="popupPerro.raza" placeholder="Ej: Labrador" />
+    </div>
+
+    <div class="form-group">
+      <label>Tamaño</label>
+      <input [(ngModel)]="popupPerro.tamano" placeholder="Ej: Mediano" />
+    </div>
+
+    <div class="form-group">
+      <label>Edad</label>
+      <input [(ngModel)]="popupPerro.edad" placeholder="Ej: 3" />
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label>
+        <input type="checkbox" [(ngModel)]="popupPerro.vacunas" /> Vacunas al día
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>Observaciones</label>
+      <textarea [(ngModel)]="popupPerro.observaciones" placeholder="Ej: Muy activo, le gusta jugar"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" (click)="guardarEdicionPerro()">Guardar</button>
+      <button class="btn-cancel" (click)="cerrarPopup()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
