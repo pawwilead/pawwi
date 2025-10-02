@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../navbar/navbar.component';
+import { Router, RouterModule } from '@angular/router';
 
 interface Perro {
   _id?: string;
@@ -30,7 +31,7 @@ interface Usuario {
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterModule],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
@@ -58,9 +59,15 @@ export class MainComponent implements OnInit {
   nuevoPerroOpen: { [usuarioId: string]: boolean } = {};
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
+    const usuario = localStorage.getItem('usuarioLogueado');
+
+    if (usuario !="admin") {
+      console.log('Usuario en cache:', usuario);
+      this.router.navigate(['/login']);
+    } 
     this.cargarUsuarios();
   }
 

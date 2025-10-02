@@ -1,0 +1,22 @@
+<div class="login-container">
+  <h2>Login</h2>
+
+  <!-- Campo número -->
+  <input 
+    type="text" 
+    [(ngModel)]="numero" 
+    placeholder="Ingrese número" />
+  <button (click)="verificarNumero()">Validar número</button>
+
+  <!-- Campo password si aplica -->
+  <div *ngIf="mostrarPassword" class="password-section">
+    <input 
+      type="password" 
+      [(ngModel)]="password" 
+      placeholder="Ingrese contraseña" />
+    <button (click)="verificarPassword()">Ingresar</button>
+  </div>
+
+  <!-- Mensaje -->
+  <p class="mensaje">{{mensaje}}</p>
+</div>

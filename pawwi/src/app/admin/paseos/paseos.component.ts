@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../navbar/navbar.component';
+import { Router, RouterModule } from '@angular/router';
 
 interface Cliente {
   _id: string;
@@ -43,7 +44,7 @@ interface Paseo {
 @Component({
   selector: 'app-paseos',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterModule],
   templateUrl: './paseos.component.html',
   styleUrls: ['./paseos.component.scss']
 })
@@ -78,9 +79,15 @@ export class PaseosComponent implements OnInit {
   // Opciones posibles para el estado del paseo
   estados = ['Pendiente', 'Cambiar', 'confirmar', 'Cancelado'];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
+    const usuario = localStorage.getItem('usuarioLogueado');
+
+    if (usuario !="admin") {
+      console.log('Usuario en cache:', usuario);
+      this.router.navigate(['/login']);
+    } 
     this.cargarPaseos();
     this.cargarClientes();
   }

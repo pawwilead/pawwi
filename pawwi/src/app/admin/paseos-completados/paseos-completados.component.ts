@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../navbar/navbar.component';
-
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-paseos-completados',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, RouterModule],
   templateUrl: './paseos-completados.component.html',
   styleUrl: './paseos-completados.component.scss'
 })
@@ -15,9 +15,15 @@ export class PaseosCompletadosComponent implements OnInit {
 paseos: any[] = [];
   toggleOpen: string | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
+    const usuario = localStorage.getItem('usuarioLogueado');
+
+    if (usuario !="admin") {
+      console.log('Usuario en cache:', usuario);
+      this.router.navigate(['/login']);
+    } 
     this.cargarPaseos();
   }
 
