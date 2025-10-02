@@ -28,9 +28,20 @@ Para trabajar en este proyecto, asegúrate de tener instalado:
 - [Angular CLI](https://angular.io/cli) **v16+**
 - Un editor de código (recomendado: [Visual Studio Code](https://code.visualstudio.com/))
 
-Verifica las versiones instaladas con:
+# -----------------------------
+# Script para publicar Angular a GitHub Pages
+# -----------------------------
 
-```bash
-node -v
-npm -v
-ng version
+# 1️⃣ Borrar build anterior
+Write-Host "🔹 Eliminando build anterior..."
+Remove-Item -Recurse -Force dist\pawwi
+
+# 2️⃣ Generar build de producción
+Write-Host "🔹 Generando build de producción..."
+ng build --configuration production --base-href "/pawwi/"
+
+# 3️⃣ Publicar a GitHub Pages
+Write-Host "🔹 Publicando a GitHub Pages..."
+npx angular-cli-ghpages --dir=dist/pawwi
+
+Write-Host "✅ Despliegue completo. Verifica en https://pawwilead.github.io/pawwi/"
