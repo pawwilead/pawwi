@@ -39,8 +39,6 @@ interface Paseo {
   metodoPago: string;
 }
 
-
-
 @Component({
   selector: 'app-paseos',
   standalone: true,
@@ -53,6 +51,8 @@ export class PaseosComponent implements OnInit {
   clientes: any[] = []; // Lista de clientes
   perrosCliente: any[] = []; // Perros del cliente seleccionado
   toggleOpen: string | null = null;
+  pawwers: any[] = []; // Lista de pawwers disponibles
+
 
   abrirFormulario: boolean = false;
 
@@ -90,6 +90,17 @@ export class PaseosComponent implements OnInit {
     } 
     this.cargarPaseos();
     this.cargarClientes();
+    this.cargarPawwers();
+  }
+
+  cargarPawwers() {
+    this.http.get<any[]>('https://backendpawwi-production.up.railway.app/api/usuarios')
+      .subscribe(data => {
+        // Filtramos solo los que son pawwers
+        this.pawwers = data
+          .filter(u => u.tipoUsuario === 'pawwer')
+          .sort((a, b) => a.nombre.localeCompare(b.nombre));
+      });
   }
 
    cargarClientes() {
@@ -165,7 +176,7 @@ export class PaseosComponent implements OnInit {
     fecha: fechaFormateada || '',
     hora: this.nuevoPaseo.hora,
     precio: this.nuevoPaseo.precio,
-    estado: this.nuevoPaseo.estado || 'Pendiente',
+    estado: this.nuevoPaseo.estado || 'Pendiente desde OMS',
     pawwer: this.nuevoPaseo.pawwer || '',
     metodoPago: this.nuevoPaseo.metodoPago || 'Nequi'
   };
@@ -213,7 +224,9 @@ export class PaseosComponent implements OnInit {
           nuevoEstado: p.estado,
           nuevaHora: p.hora,
           nuevaFecha: p.fecha,
-          nuevoPawwer: p.pawwer
+          nuevoPawwer: p.pawwer,
+          nuevoPrecio: p.precio,
+          nuevoMetodoPago: p.metodoPago
         }));
       });
   }
@@ -238,18 +251,33 @@ export class PaseosComponent implements OnInit {
       fechaFormateada = `${dd}/${mm}`;
     }
 
-    this.http.put(`https://backendpawwi-production.up.railway.app/api/leads/${paseo._id}`, {
+    // Buscar datos del pawwer seleccionado
+    const pawwerSeleccionado = this.pawwers.find(p => p._id === paseo.nuevoPawwer || p.nombre === paseo.nuevoPawwer);
+
+    // Si lo encuentra, tomar su número de celular
+    const pawwerCelular = pawwerSeleccionado ? pawwerSeleccionado.celular : '';
+
+    const payload = {
       estado: paseo.nuevoEstado,
       hora: paseo.nuevaHora,
       fecha: fechaFormateada,
-      pawwer: paseo.nuevoPawwer
-    }).subscribe(res => {
-      paseo.estado = paseo.nuevoEstado;
-      paseo.hora = paseo.nuevaHora;
-      paseo.fecha = fechaFormateada;
-      paseo.pawwer = paseo.nuevoPawwer;
-      alert(`✅ Paseo actualizado correctamente`);
-    });
+      pawwer: paseo.nuevoPawwer,        // nombre o id (como lo tengas en el frontend)
+      pawwerCelular: pawwerCelular,     // 👈 nuevo campo
+      precio: paseo.nuevoPrecio,
+      metodoPago: paseo.nuevoMetodoPago
+    };
+
+    this.http.put(`https://backendpawwi-production.up.railway.app/api/leads/${paseo._id}`, payload)
+      .subscribe(res => {
+        paseo.estado = paseo.nuevoEstado;
+        paseo.hora = paseo.nuevaHora;
+        paseo.fecha = fechaFormateada;
+        paseo.pawwer = paseo.nuevoPawwer;
+        paseo.precio = paseo.nuevoPrecio;
+        paseo.metodoPago = paseo.nuevoMetodoPago;
+        alert('✅ Paseo actualizado correctamente');
+        window.location.reload();
+      });
   }
 
   abrirPaseo(id: string) {

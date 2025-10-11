@@ -82,24 +82,35 @@ export class PaseosAgendadosComponent implements OnInit  {
   }
 
   actualizarPaseo(paseo: any) {
+    const convertToColombiaTime = (localDateStr: string) => {
+      const localDate = new Date(localDateStr); // La hora que seleccionó el usuario
+      // Offset Colombia UTC-5
+      const colombiaOffset = -5 * 60; // en minutos
+      const utc = localDate.getTime() + localDate.getTimezoneOffset() * 60000;
+      const colombiaDate = new Date(utc + colombiaOffset * 60000);
+
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      return `${colombiaDate.getFullYear()}-${pad(colombiaDate.getMonth() + 1)}-${pad(colombiaDate.getDate())} ${pad(colombiaDate.getHours())}:${pad(colombiaDate.getMinutes())}:${pad(colombiaDate.getSeconds())}`;
+    }
+
+    const horaInicioColombia = convertToColombiaTime(paseo.nuevaHoraInicio);
+
     this.http.put(`https://backendpawwi-production.up.railway.app/api/paseos/${paseo._id}`, {
       Estado: paseo.nuevoEstado,
       Fecha: paseo.nuevaFecha,
       Hora: paseo.nuevaHora,
-      HoraInicio: paseo.nuevaHoraInicio,
+      HoraInicio: horaInicioColombia,
       IdPawwer: paseo.nuevoPawwer
     }).subscribe(res => {
-      paseo.Estado = paseo.nuevoEstado;
-      paseo.Fecha = paseo.nuevaFecha;
-      paseo.Hora = paseo.nuevaHora;
-      paseo.HoraInicio = paseo.nuevaHoraInicio;
-      paseo.IdPawwer = paseo.nuevoPawwer;
+      paseo.HoraInicio = horaInicioColombia;
       alert(`✅ Paseo actualizado correctamente`);
+      window.location.reload();
     }, err => {
       console.error('Error actualizando paseo:', err);
       alert('❌ Error al actualizar. Revisa la consola.');
     });
   }
+
 
   abrirPaseo(id: string) {
     this.toggleOpen = this.toggleOpen === id ? null : id;

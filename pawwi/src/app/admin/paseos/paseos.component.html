@@ -163,6 +163,18 @@
         </label>
 
         <label>
+          Precio:
+          <input type="number" [(ngModel)]="paseo.nuevoPrecio" />
+        </label>
+
+        <label>
+          Método de pago:
+          <select [(ngModel)]="paseo.nuevoMetodoPago">
+            <option *ngFor="let m of metodosPago" [value]="m">{{ m }}</option>
+          </select>
+        </label>
+
+        <label>
           Estado
           <select [(ngModel)]="paseo.nuevoEstado">
             <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
@@ -170,8 +182,13 @@
         </label>
 
         <label>
-          Número Pawwer
-          <input type="number" [(ngModel)]="paseo.nuevoPawwer" />
+          Pawwer asignado:
+          <select [(ngModel)]="paseo.nuevoPawwer">
+            <option value="">-- Seleccione Pawwer --</option>
+            <option *ngFor="let p of pawwers" [value]="p.celular">
+              🐾 {{ p.nombre }} - {{ p.celular }}
+            </option>
+          </select>
         </label>
 
         <button (click)="actualizarPaseo(paseo)" class="btn btn-save">

@@ -44,6 +44,11 @@ export class MainComponent implements OnInit {
   toggleUsuarioOpen: string | null = null;
   togglePerrosOpen: string | null = null;
 
+  // Nuevo usuario
+  popupUsuarioNuevo = false;
+  usuarioNuevo: Partial<Usuario> = { nombre: '', celular: '', direccion: '', tipoUsuario: 'cliente' };
+
+
   private baseUrl = 'https://backendpawwi-production.up.railway.app/api/usuarios';
   //private baseUrl = 'http://localhost:3000/api/usuarios';
 
@@ -84,11 +89,22 @@ export class MainComponent implements OnInit {
   }
 
   actualizarTipo(usuario: Usuario) {
-    this.http.put(`${this.baseUrl}/${usuario._id}`, { tipoUsuario: usuario.tipoUsuario })
-      .subscribe(() => {
-        alert(`✅ Usuario ${usuario.nombre} ahora es ${usuario.tipoUsuario}`);
+    const nuevoTipo = usuario.nuevoTipo || usuario.tipoUsuario;
+
+    this.http.put(`${this.baseUrl}/${usuario._id}`, { tipoUsuario: nuevoTipo })
+      .subscribe({
+        next: () => {
+          usuario.tipoUsuario = nuevoTipo;
+          alert(`✅ Usuario ${usuario.nombre} ahora es ${nuevoTipo}`);
+          window.location.reload();
+        },
+        error: (err) => {
+          console.error('❌ Error al actualizar tipo de usuario:', err);
+          alert('Error al actualizar tipo de usuario');
+        }
       });
   }
+
 
   // ------------------ CRUD PERROS ------------------ //
   agregarPerro(usuarioId: string) {
@@ -156,4 +172,34 @@ export class MainComponent implements OnInit {
   trackById(index: number, item: any) {
     return item._id;
   }
+
+  abrirPopupNuevoUsuario() {
+  this.popupUsuarioNuevo = true;
+}
+
+cerrarPopupNuevoUsuario() {
+  this.popupUsuarioNuevo = false;
+  this.usuarioNuevo = { nombre: '', celular: '', direccion: '', tipoUsuario: 'cliente' };
+}
+
+agregarUsuario() {
+  if (!this.usuarioNuevo.nombre || !this.usuarioNuevo.celular) {
+    alert('❌ Nombre y celular son obligatorios');
+    return;
+  }
+
+  this.http.post<Usuario>(this.baseUrl, this.usuarioNuevo)
+    .subscribe({
+      next: () => {
+        alert('✅ Usuario agregado correctamente');
+        this.cerrarPopupNuevoUsuario();
+        this.cargarUsuarios();
+        window.location.reload();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('❌ Error al agregar usuario');
+      }
+    });
+}
 }

@@ -1,6 +1,46 @@
 <app-navbar></app-navbar>
 <div class="main-container">
   <h1>Gestión de Usuarios</h1>
+  <!-- Botón para agregar usuario -->
+<div class="agregar-usuario">
+  <button class="btn-save" (click)="abrirPopupNuevoUsuario()">➕ Agregar Usuario</button>
+</div>
+
+<!-- POPUP NUEVO USUARIO -->
+<div class="modal" *ngIf="popupUsuarioNuevo">
+  <div class="modal-content">
+    <h3>➕ Nuevo Usuario</h3>
+    <p class="modal-subtitle">Ingresa la información del usuario</p>
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input [(ngModel)]="usuarioNuevo.nombre" placeholder="Ej: Juan Pérez" />
+    </div>
+
+    <div class="form-group">
+      <label>Celular</label>
+      <input [(ngModel)]="usuarioNuevo.celular" placeholder="Ej: 573XXXXXXXXX" />
+    </div>
+
+    <div class="form-group">
+      <label>Dirección</label>
+      <input [(ngModel)]="usuarioNuevo.direccion" placeholder="Ej: Calle 123" />
+    </div>
+
+    <div class="form-group">
+      <label>Tipo</label>
+      <select [(ngModel)]="usuarioNuevo.tipoUsuario">
+        <option value="cliente">Cliente</option>
+        <option value="pawwer">Pawwer</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" (click)="agregarUsuario()">Guardar</button>
+      <button class="btn-cancel" (click)="cerrarPopupNuevoUsuario()">Cancelar</button>
+    </div>
+  </div>
+</div>
 
   <!-- Tabs -->
   <div class="tabs">

@@ -45,7 +45,16 @@
       <p><strong>Método de pago:</strong> {{ paseo.MetodoPago }}</p>
       <p><strong>Creado:</strong> {{ paseo.FechaCreacion | date:'short' }}</p>
       <p><strong>Anotaciones:</strong> {{ paseo.Anotaciones }}</p>
-      <p><strong>Strava:</strong> {{ paseo.Strava || 'N/A' }}</p>
+      <p>
+        <strong>Strava:</strong>
+        <a *ngIf="paseo.Strava; else noStrava"
+          [href]="'https://www.strava.com/beacon/' + paseo.Strava"
+          target="_blank"
+          rel="noopener noreferrer">
+          Ver link de Strava
+        </a>
+        <ng-template #noStrava>N/A</ng-template>
+      </p>
 
       <!-- Editor -->
       <div class="editor">
@@ -61,8 +70,12 @@
 
         <label>
           Hora Inicio
-          <input type="time" [(ngModel)]="paseo.nuevaHoraInicio" />
+          <input 
+            type="datetime-local" 
+            [(ngModel)]="paseo.nuevaHoraInicio" 
+          />
         </label>
+
 
         <label>
           Estado
