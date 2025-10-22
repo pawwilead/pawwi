@@ -299,14 +299,12 @@ export class PaseosComponent implements OnInit {
  ${paseo.anotaciones || 'Sin anotaciones'}
 
 *Dirección:* ${paseo.direccion || 'No registrada'}
-
 *Tiempo de servicio:* ${paseo.tiempoServicio || 'N/A'} minutos
-
 *Fecha:* ${paseo.fecha || 'Sin fecha'}
-
 *Hora:* ${paseo.hora || 'Sin hora'}
-
 *Precio:* $${paseo.precio || 'N/A'}
+
+Reacciona al mensaje si quieres tomar el paseo 🐶
 `;
 
   navigator.clipboard.writeText(mensaje).then(() => {
