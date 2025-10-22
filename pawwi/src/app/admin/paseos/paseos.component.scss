@@ -273,6 +273,22 @@ h1 {
   background-color: #45a049;
 }
 
+
+.btn-copy {
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-copy:hover {
+  background-color: #5848e0;
+}
+
+
 /* Responsive: tablets y móviles */
 @media (max-width: 768px) {
   .modal-content {

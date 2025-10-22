@@ -133,6 +133,7 @@
         <h2>{{ paseo.nombre }} - {{ paseo.perro }}</h2>
         <p class="subinfo">📞 {{ paseo.celular }}</p>
         <p class="subinfo">📍 {{ paseo.direccion }}</p>
+        <button (click)="copiarMensaje(paseo)" class="btn btn-copy">Copiar mensaje de grupos</button>
       </div>
       <span class="estado">{{ paseo.estado }}</span>
     </div>

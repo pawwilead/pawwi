@@ -287,4 +287,33 @@ export class PaseosComponent implements OnInit {
   trackById(index: number, item: any) {
     return item._id;
   }
+
+  copiarMensaje(paseo: any) {
+    this.toggleOpen = this.toggleOpen === paseo._id ? null : paseo._id;
+  const mensaje = 
+`Nuevo paseo:
+          
+*Nombre cliente:* ${paseo.nombre}
+*Perros:* ${paseo.perro}
+*Anotaciones:*
+ ${paseo.anotaciones || 'Sin anotaciones'}
+
+*Dirección:* ${paseo.direccion || 'No registrada'}
+
+*Tiempo de servicio:* ${paseo.tiempoServicio || 'N/A'} minutos
+
+*Fecha:* ${paseo.fecha || 'Sin fecha'}
+
+*Hora:* ${paseo.hora || 'Sin hora'}
+
+*Precio:* $${paseo.precio || 'N/A'}
+`;
+
+  navigator.clipboard.writeText(mensaje).then(() => {
+    alert('✅ Mensaje copiado al portapapeles');
+  }).catch(err => {
+    console.error('Error al copiar:', err);
+    alert('❌ No se pudo copiar el mensaje');
+  });
+}
 }
