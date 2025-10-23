@@ -1,0 +1,149 @@
+/* Container general de paseos */
+.paseos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Cada tarjeta de paseo */
+.paseo-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Header de cada paseo */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333333;
+  }
+
+  .estado {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    color: #555555;
+    font-size: 0.9rem;
+
+    &.Confirmed {
+      background-color: #4caf50;
+      color: #fff;
+    }
+
+    &.Pendiente {
+      background-color: #ff9800;
+      color: #fff;
+    }
+  }
+
+  .subinfo {
+    font-size: 0.9rem;
+    color: #777777;
+    margin: 2px 0;
+  }
+}
+
+/* Sección de agendar paseo */
+.agendar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #120A2B;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #1565c0;
+    }
+  }
+}
+
+/* Mensaje cuando no hay paseos */
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #555555;
+  font-size: 1.1rem;
+  padding: 30px 0;
+}
+
+/* Overlay de carga */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+
+  .loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #120A2B;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive para móviles */
+@media (max-width: 600px) {
+  .paseo-card {
+    padding: 15px;
+  }
+
+  .header h2 {
+    font-size: 1rem;
+  }
+
+  .agendar-section input,
+  .agendar-section button {
+    font-size: 0.95rem;
+  }
+}

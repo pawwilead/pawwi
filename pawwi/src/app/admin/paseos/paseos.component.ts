@@ -288,11 +288,17 @@ export class PaseosComponent implements OnInit {
     return item._id;
   }
 
-  copiarMensaje(paseo: any) {
-    this.toggleOpen = this.toggleOpen === paseo._id ? null : paseo._id;
+copiarMensaje(paseo: any) {
+  // Alternar apertura del detalle
+  this.toggleOpen = this.toggleOpen === paseo._id ? null : paseo._id;
+
+  // Construir la URL dinámica con el ID del paseo
+  const urlPaseo = `${window.location.origin}/pawwi/schedule?paseoId=${paseo._id}`;
+
+  // Mensaje con la URL incluida
   const mensaje = 
 `Nuevo paseo:
-          
+
 *Nombre cliente:* ${paseo.nombre}
 *Perros:* ${paseo.perro}
 *Anotaciones:*
@@ -304,14 +310,21 @@ export class PaseosComponent implements OnInit {
 *Hora:* ${paseo.hora || 'Sin hora'}
 *Precio:* $${paseo.precio || 'N/A'}
 
+🔗 Link para agendar este paseo: 
+${urlPaseo}
+
 Reacciona al mensaje si quieres tomar el paseo 🐶
 `;
 
-  navigator.clipboard.writeText(mensaje).then(() => {
-    alert('✅ Mensaje copiado al portapapeles');
-  }).catch(err => {
-    console.error('Error al copiar:', err);
-    alert('❌ No se pudo copiar el mensaje');
-  });
-}
+    // Copiar al portapapeles
+    navigator.clipboard.writeText(mensaje)
+      .then(() => {
+        alert('✅ Mensaje copiado al portapapeles');
+      })
+      .catch(err => {
+        console.error('Error al copiar:', err);
+        alert('❌ No se pudo copiar el mensaje');
+      });
+  }
+
 }

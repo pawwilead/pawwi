@@ -1,0 +1,33 @@
+<div *ngIf="linkIncorrecto" class="link-incorrecto">
+  <h2>❌ Upps, el link es incorrecto.</h2>
+  <p>Por favor revisa el enlace o contacta soporte.</p>
+</div>
+
+<div *ngIf="!linkIncorrecto" class="paseos-container">
+  <div class="overlay" *ngIf="cargando">
+    <div class="loader">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <div *ngFor="let paseo of paseosFiltrados; trackBy: trackById" class="paseo-card">
+    <div class="header">
+      <div>
+        <h2>{{ paseo.nombre }} - {{ paseo.perro }}</h2>
+        <p class="subinfo">📞 {{ paseo.celular }}</p>
+        <p class="subinfo">📍 {{ paseo.direccion }}</p>
+      </div>
+      <span class="estado">{{ paseo.estado }}</span>
+    </div>
+
+    <div class="agendar-section">
+      <input type="text" placeholder="📱 Número del Pawwer" #celInput />
+      <button (click)="agendarPaseo(paseo, celInput.value)">Agendar Paseo</button>
+    </div>
+  </div>
+
+  <div *ngIf="paseosFiltrados.length === 0" class="empty">
+    <h3>El paseo no se encuentra disponible o ya fue asignado</h3>
+    <h4>Si asignaste el paseo, en breves momentos te llegara un mensaje a whatsApp</h4>
+  </div>
+</div>
