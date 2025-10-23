@@ -27,6 +27,7 @@ export class PaseosAgendadosComponent implements OnInit  {
     'Esperando finalizacion',
     'Esperando finalizacion Pawwer',
     'Completado (15 minutos recordatorio de pago)',
+    'Completado',
     'Cancelado'
   ];
 
