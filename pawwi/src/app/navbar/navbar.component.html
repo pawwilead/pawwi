@@ -1,17 +1,27 @@
 <nav class="navbar">
-  <!-- Logo -->
+  <!-- Logo + Botón Hamburguesa -->
   <div class="navbar-left">
     <img 
       src="https://pawwi.co/wp-content/uploads/2024/10/LogoPawwi.svg" 
       alt="Logo" 
-      class="logo" 
+      class="logo"
     />
 
-    <a routerLink="/main" routerLinkActive="active" class="btn">Usuarios</a>
-    <div class="divider"></div>
-    <a routerLink="/leads" routerLinkActive="active" class="btn">Por agendar</a>
-    <a routerLink="/paseos" routerLinkActive="active" class="btn">En proceso</a>
-    <a routerLink="/completados" routerLinkActive="active" class="btn">Paseos completados</a>
+    <!-- Botón menú (solo visible en móvil) -->
+    <button class="hamburger" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Menú principal -->
+    <div class="navbar-links" [class.active]="menuOpen">
+      <a routerLink="/main" routerLinkActive="active" class="btn">Usuarios</a>
+      <div class="divider"></div>
+      <a routerLink="/leads" routerLinkActive="active" class="btn">Por agendar</a>
+      <a routerLink="/paseos" routerLinkActive="active" class="btn">En proceso</a>
+      <a routerLink="/completados" routerLinkActive="active" class="btn">Paseos completados</a>
+    </div>
   </div>
 
   <!-- Perfil -->

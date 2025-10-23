@@ -10,4 +10,9 @@ import { RouterModule } from '@angular/router';
 })
 export class NavbarComponent {
   profileName: string = 'Admin';
+  menuOpen: boolean = false; // 👈 controla el menú hamburguesa
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
 }

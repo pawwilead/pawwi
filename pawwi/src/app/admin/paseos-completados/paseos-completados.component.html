@@ -1,35 +1,105 @@
 <app-navbar></app-navbar>
+
 <div class="paseos-container">
   <h1>Paseos Completados</h1>
 
-  <div *ngFor="let paseo of paseos; trackBy: trackById" class="paseo-card">
-    <!-- Header -->
+  <!-- 🔍 FILTROS -->
+  <div class="filtros">
+    <input
+      type="text"
+      placeholder="Buscar..."
+      [(ngModel)]="filtroTexto"
+      (input)="onBuscarTexto()" />
+
+    <select [(ngModel)]="tipoCampo" (change)="aplicarFiltros()">
+      <option value="">Nombre o Celular</option>
+      <option value="nombre">Nombre</option>
+      <option value="celular">Celular</option>
+    </select>
+
+    <select [(ngModel)]="tipoEntidad" (change)="aplicarFiltros()">
+      <option value="">Cliente o Pawwer</option>
+      <option value="cliente">Cliente</option>
+      <option value="pawwer">Pawwer</option>
+      <option value="ambos">Ambos</option>
+    </select>
+
+    <input
+      type="date"
+      [(ngModel)]="filtroFecha"
+      (change)="aplicarFiltros()" />
+
+    <select [(ngModel)]="filtroPago" (change)="aplicarFiltros()">
+      <option value="">Todos</option>
+      <option value="pawwer">Pagado a Pawwer</option>
+      <option value="empresa">Pagado a Empresa</option>
+      <option value="nopago">Sin pagar</option>
+    </select>
+
+    <button class="btn-limpiar" (click)="limpiarFiltros()">Limpiar</button>
+  </div>
+
+  <!-- 🔽 LISTADO -->
+  <div *ngFor="let paseo of paseosFiltrados; trackBy: trackById" class="paseo-card">
     <div class="header" (click)="abrirPaseo(paseo._id)">
-      <div>
+      <div class="info">
         <h2>{{ paseo.nombre }} - 🐶 {{ paseo.perro }}</h2>
-        <p class="subinfo">📞 Cliente: {{ paseo.celular }}</p>
-        <p class="subinfo">📍 {{ paseo.direccion }}</p>
+        <p class="subinfo">📞 {{ paseo.celular }}</p>
+        <p class="subinfo">👣 Pawwer: {{ paseo.pawwerNombre }}</p>
+
       </div>
-      <span class="estado">{{ paseo.estado }}</span>
+
+      <!-- 🔵 Etiqueta de estado (mantiene estilo original) -->
+       <div class="cont">
+        <div class="estado" [ngClass]="paseo.estado.toLowerCase()">
+        {{ paseo.estado }}
+      </div>
+      <div class="estado paww" [ngClass]="paseo.estado.toLowerCase()" ngif="paseo.pagadoPawwer">
+        Pago a Pawwer
+      </div>
+      <div class="estado empp" [ngClass]="paseo.estado.toLowerCase()" ngif="paseo.pagadoEmpresa">
+        Pago a Empresa
+      </div>
+       </div>
+      
     </div>
 
-    <!-- Body (toggle) -->
-    <div *ngIf="toggleOpen === paseo._id" class="body">
-      <p><strong>Servicio:</strong> {{ paseo.tipoServicio }} - {{ paseo.tiempoServicio }} min</p>
-      <p><strong>Fecha:</strong> {{ paseo.fecha }}</p>
-      <p><strong>Hora:</strong> {{ paseo.hora }}</p>
-      <p><strong>Hora Inicio:</strong> {{ paseo.horaInicio }}</p>
-      <p><strong>Hora Fin:</strong> {{ paseo.horaFin }}</p>
-      <p><strong>Precio:</strong> {{ paseo.precio | currency:'USD' }}</p>
-      <p><strong>Método de pago:</strong> {{ paseo.metodoPago }}</p>
-      <p><strong>Pawwer ID:</strong> {{ paseo.pawwer }}</p>
-      <p><strong>Ganancia Pawwer:</strong> {{ paseo.gananciaPawwer | currency:'USD' }}</p>
-      <p><strong>Completado:</strong> {{ paseo.fechaCompletado | date:'short' }}</p>
+    <!-- CUERPO (editor) -->
+    <div class="body" *ngIf="toggleOpen === paseo._id">
+      <div class="editor-compact">
+        <div class="campos">
+          <div class="campo" *ngFor="let campo of [
+            { label: 'Nombre del cliente', key: 'nombre' },
+            { label: 'Celular del cliente', key: 'celular' },
+            { label: 'Perro', key: 'perro' },
+            { label: 'Dirección', key: 'direccion' },
+            { label: 'Servicio', key: 'tipoServicio' },
+            { label: 'Duración (min)', key: 'tiempoServicio' },
+            { label: 'Fecha', key: 'fecha' },
+            { label: 'Hora', key: 'hora' },
+            { label: 'Precio', key: 'precio' },
+            { label: 'Pawwer', key: 'pawwer' }
+          ]">
+            <label>{{ campo.label }}</label>
+            <input
+              [type]="campo.key === 'tiempoServicio' || campo.key === 'precio' ? 'number' : 'text'"
+              [(ngModel)]="paseo[campo.key]" />
+          </div>
+        </div>
+
+        <div class="checkboxes">
+          <label><input type="checkbox" [(ngModel)]="paseo.pagadoPawwer" /> Pagado a Pawwer</label>
+          <label><input type="checkbox" [(ngModel)]="paseo.pagadoEmpresa" /> Pagado a Empresa</label>
+        </div>
+
+        <div class="acciones">
+          <button class="btn-save" (click)="guardarCambios(paseo)">💾 Actualizar</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="paseos.length === 0" class="empty">
-    <h3>No hay paseos completados</h3>
-    <p>Aquí se mostrarán los que ya finalizaron.</p>
+  <div *ngIf="paseosFiltrados.length === 0" class="empty">
+    <h3>No hay resultados</h3>
   </div>
 </div>

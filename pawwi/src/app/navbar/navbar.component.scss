@@ -2,10 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #F7AEF1; // Fondo principal
+  background: #F7AEF1;
   padding: 12px 24px;
   border-bottom: 3px solid rgba(18, 10, 43, 0.1);
   font-family: 'Poppins', sans-serif;
+  position: relative;
+  z-index: 100;
 }
 
 .navbar-left {
@@ -19,6 +21,7 @@
   width: auto;
 }
 
+/* ---- BOTONES ---- */
 .btn {
   background: #120A2B;
   border: none;
@@ -29,6 +32,8 @@
   transition: all 0.3s ease;
   padding: 10px;
   border-radius: 8px;
+  display: inline-block;
+  text-align: center;
 }
 
 .btn:hover {
@@ -57,4 +62,80 @@
 
 .navbar-right:hover {
   background: rgba(18, 10, 43, 0.15);
+}
+
+/* ---- HAMBURGUESA ---- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: #120A2B;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* ---- MENÚ RESPONSIVE ---- */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+@media (max-width: 850px) {
+  .hamburger {
+    display: flex;
+    margin-left: 12px;
+  }
+
+  .navbar-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: #F7AEF1;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 0;
+    border-top: 2px solid rgba(18, 10, 43, 0.1);
+    display: none;
+    animation: slideDown 0.3s ease forwards;
+  }
+
+  .logo {
+    visibility: hidden;
+    display: contents;
+  }
+
+  .navbar-links.active {
+    display: flex;
+    top: 55px;
+  }
+
+  .divider {
+    display: none;
+  }
+}
+
+/* Animación suave */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
