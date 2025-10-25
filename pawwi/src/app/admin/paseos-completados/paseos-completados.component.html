@@ -54,10 +54,10 @@
         <div class="estado" [ngClass]="paseo.estado.toLowerCase()">
         {{ paseo.estado }}
       </div>
-      <div class="estado paww" [ngClass]="paseo.estado.toLowerCase()" ngif="paseo.pagadoPawwer">
+      <div class="estado paww" [ngClass]="paseo.estado.toLowerCase()" *ngIf="paseo.pagadoPawwer">
         Pago a Pawwer
       </div>
-      <div class="estado empp" [ngClass]="paseo.estado.toLowerCase()" ngif="paseo.pagadoEmpresa">
+      <div class="estado empp" [ngClass]="paseo.estado.toLowerCase()" *ngIf="paseo.pagadoEmpresa">
         Pago a Empresa
       </div>
        </div>
