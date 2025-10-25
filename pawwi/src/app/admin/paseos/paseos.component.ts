@@ -305,13 +305,10 @@ copiarMensaje(paseo: any) {
  ${paseo.anotaciones || 'Sin anotaciones'}
 
 *Dirección:* ${paseo.direccion || 'No registrada'}
-*Tiempo de servicio:* ${paseo.tiempoServicio || 'N/A'} minutos
+*Tiempo de servicio:* ${paseo.tiempoServicio || 'N/A'}
 *Fecha:* ${paseo.fecha || 'Sin fecha'}
 *Hora:* ${paseo.hora || 'Sin hora'}
 *Precio:* $${paseo.precio || 'N/A'}
-
-🔗 Link para agendar este paseo: 
-${urlPaseo}
 
 Reacciona al mensaje si quieres tomar el paseo 🐶
 `;
