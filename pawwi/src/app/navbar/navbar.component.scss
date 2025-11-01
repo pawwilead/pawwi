@@ -94,6 +94,9 @@
 }
 
 @media (max-width: 850px) {
+  .btn {
+    width: 50vw;
+  }
   .hamburger {
     display: flex;
     margin-left: 12px;

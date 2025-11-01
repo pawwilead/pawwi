@@ -292,17 +292,25 @@ copiarMensaje(paseo: any) {
   // Alternar apertura del detalle
   this.toggleOpen = this.toggleOpen === paseo._id ? null : paseo._id;
 
-  // Construir la URL dinámica con el ID del paseo
-  const urlPaseo = `${window.location.origin}/pawwi/schedule?paseoId=${paseo._id}`;
+  // Reemplaza cada campo con salto de línea
+  let anotacionesFormateadas = 'Sin anotaciones';
+  if (paseo.anotaciones && typeof paseo.anotaciones === 'string') {
+    anotacionesFormateadas = paseo.anotaciones
+      .replace(/\*Raza:\*/g, '• *Raza:*')
+      .replace(/\*Edad:\*/g, '• *Edad:*')
+      .replace(/\*Vacunas:\*/g, '• *Vacunas:*')
+      .replace(/\*Consideraciones:\*/g, '• *Consideraciones:*')
+      .trim();
+  }
 
-  // Mensaje con la URL incluida
+  // 🐾 Construir el mensaje final
   const mensaje = 
 `Nuevo paseo:
 
 *Nombre cliente:* ${paseo.nombre}
 *Perros:* ${paseo.perro}
 *Anotaciones:*
- ${paseo.anotaciones || 'Sin anotaciones'}
+ ${anotacionesFormateadas}
 
 *Dirección:* ${paseo.direccion || 'No registrada'}
 *Tiempo de servicio:* ${paseo.tiempoServicio || 'N/A'}
@@ -313,15 +321,17 @@ copiarMensaje(paseo: any) {
 Reacciona al mensaje si quieres tomar el paseo 🐶
 `;
 
-    // Copiar al portapapeles
-    navigator.clipboard.writeText(mensaje)
-      .then(() => {
-        alert('✅ Mensaje copiado al portapapeles');
-      })
-      .catch(err => {
-        console.error('Error al copiar:', err);
-        alert('❌ No se pudo copiar el mensaje');
-      });
-  }
+  // Copiar al portapapeles
+  navigator.clipboard.writeText(mensaje)
+    .then(() => alert('✅ Mensaje copiado al portapapeles'))
+    .catch((err: any) => {
+      console.error('Error al copiar:', err);
+      alert('❌ No se pudo copiar el mensaje');
+    });
+}
+
+
+
+
 
 }

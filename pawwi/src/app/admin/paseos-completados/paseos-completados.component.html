@@ -5,12 +5,7 @@
 
   <!-- 🔍 FILTROS -->
   <div class="filtros">
-    <input
-      type="text"
-      placeholder="Buscar..."
-      [(ngModel)]="filtroTexto"
-      (input)="onBuscarTexto()" />
-
+    <label>Filtros:</label>
     <select [(ngModel)]="tipoCampo" (change)="aplicarFiltros()">
       <option value="">Nombre o Celular</option>
       <option value="nombre">Nombre</option>
@@ -23,12 +18,19 @@
       <option value="pawwer">Pawwer</option>
       <option value="ambos">Ambos</option>
     </select>
+    <input
+      type="text"
+      placeholder="Buscar..."
+      [(ngModel)]="filtroTexto"
+      (input)="onBuscarTexto()" />
 
+    <label>Filtrar por fecha:</label>
     <input
       type="date"
       [(ngModel)]="filtroFecha"
       (change)="aplicarFiltros()" />
 
+      <label>Filtrar por pagado a:</label>
     <select [(ngModel)]="filtroPago" (change)="aplicarFiltros()">
       <option value="">Todos</option>
       <option value="pawwer">Pagado a Pawwer</option>
