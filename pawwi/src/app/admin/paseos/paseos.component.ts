@@ -289,28 +289,24 @@ export class PaseosComponent implements OnInit {
   }
 
 copiarMensaje(paseo: any) {
-  // Alternar apertura del detalle
   this.toggleOpen = this.toggleOpen === paseo._id ? null : paseo._id;
 
-  // Reemplaza cada campo con salto de línea
   let anotacionesFormateadas = 'Sin anotaciones';
   if (paseo.anotaciones && typeof paseo.anotaciones === 'string') {
     anotacionesFormateadas = paseo.anotaciones
-      .replace(/\*Raza:\*/g, '• *Raza:*')
-      .replace(/\*Edad:\*/g, '• *Edad:*')
-      .replace(/\*Vacunas:\*/g, '• *Vacunas:*')
-      .replace(/\*Consideraciones:\*/g, '• *Consideraciones:*')
-      .trim();
+      .split(',')
+      .map((a: string) => a.trim())
+      .map((a: string) => `• ${a}`)
+      .join('\n');
   }
 
-  // 🐾 Construir el mensaje final
   const mensaje = 
 `Nuevo paseo:
 
 *Nombre cliente:* ${paseo.nombre}
 *Perros:* ${paseo.perro}
 *Anotaciones:*
- ${anotacionesFormateadas}
+${anotacionesFormateadas}
 
 *Dirección:* ${paseo.direccion || 'No registrada'}
 *Tiempo de servicio:* ${paseo.tiempoServicio || 'N/A'}
@@ -318,10 +314,8 @@ copiarMensaje(paseo: any) {
 *Hora:* ${paseo.hora || 'Sin hora'}
 *Precio:* $${paseo.precio || 'N/A'}
 
-Reacciona al mensaje si quieres tomar el paseo 🐶
-`;
+Reacciona al mensaje si quieres tomar el paseo 🐶`;
 
-  // Copiar al portapapeles
   navigator.clipboard.writeText(mensaje)
     .then(() => alert('✅ Mensaje copiado al portapapeles'))
     .catch((err: any) => {
@@ -329,9 +323,5 @@ Reacciona al mensaje si quieres tomar el paseo 🐶
       alert('❌ No se pudo copiar el mensaje');
     });
 }
-
-
-
-
 
 }
