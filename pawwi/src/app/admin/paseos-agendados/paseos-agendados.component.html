@@ -88,9 +88,16 @@
         </label>
 
         <label>
-          Pawwer (ID)
-          <input type="text" [(ngModel)]="paseo.nuevoPawwer" />
+          Pawwer
+          <div class="pawwer-selector">
+            <input type="text" [(ngModel)]="paseo.nuevoPawwer" readonly />
+          </div>
         </label>
+        <button (click)="abrirPopupPawwer(paseo)" class="btn btn-pawwer">Cambiar Pawwer</button>
+
+        <p><strong>Nombre Pawwer:</strong> {{ paseo.NombrePawwer }}</p>
+        <p><strong>Celular Pawwer:</strong> {{ paseo.CelularPawwer }}</p>
+
 
         <button (click)="actualizarPaseo(paseo)" class="btn btn-save">
           Guardar Cambios
@@ -104,3 +111,39 @@
     <p>Cuando haya paseos activos, aparecerán aquí.</p>
   </div>
 </div>
+<!-- POPUP PARA SELECCIONAR PAWWER -->
+<div class="modal" *ngIf="popupPawwerVisible">
+  <div class="modal-content pawwer-popup">
+
+    <button class="close-popup" (click)="popupPawwerVisible = false">✖</button>
+
+    <h2 class="titulo-popup">🐾 Seleccionar Pawwer</h2>
+
+    <input 
+      type="text" 
+      [(ngModel)]="busquedaPawwer"
+      placeholder="🔍 Buscar por nombre o número"
+      class="input-search-pawwer"
+    />
+
+    <div class="pawwer-list">
+      <div 
+        *ngFor="let p of pawwersFiltrados" 
+        class="pawwer-item-card"
+        (click)="seleccionarPawwer(p)"
+      >
+        <div class="pw-info">
+          <strong>{{ p.nombre }}</strong>
+          <small>{{ p.celular }}</small>
+        </div>
+        <span class="pw-icon">➡️</span>
+      </div>
+
+      <div *ngIf="pawwersFiltrados.length === 0" class="empty">
+        No hay resultados
+      </div>
+    </div>
+
+  </div>
+</div>
+

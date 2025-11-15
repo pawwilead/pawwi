@@ -41,46 +41,65 @@ export class PaseosAgendadosComponent implements OnInit  {
       this.router.navigate(['/login']);
     } 
     this.cargarPaseos();
+    this.cargarPawwers()
   }
 
   cargarPaseos() {
     this.http.get<any[]>('https://backendpawwi-production.up.railway.app/api/paseos')
       .subscribe(data => {
-        this.paseos = data.map(p => ({
-          _id: p._id,
-          FechaCreacion: p.FechaCreacion,
-          Celular: p.Celular,
-          CelularPawwer: p.CelularPawwer,
-          Nombre: p.Nombre,
-          NombrePawwer: p.NombrePawwer,
-          Perro: p.Perro,
-          Anotaciones: p.Anotaciones,
-          Direccion: p.Direccion,
-          TipoServicio: p.TipoServicio,
-          TiempoServicio: p.TiempoServicio,
-          Fecha: p.Fecha,
-          Hora: p.Hora,
-          HoraInicio: p.HoraInicio,
-          Precio: p.Precio,
-          Estado: p.Estado,
-          Strava: p.Strava,
-          MetodoPago: p.MetodoPago,
-          IdPawwer: p.IdPawwer,
 
-          // Campos editables
-          nuevaFecha: p.Fecha,
-          nuevaHora: p.Hora,
-          nuevoEstado: p.Estado,
-          nuevaHoraInicio: p.HoraInicio,
-          nuevoPawwer: p.IdPawwer
-        }));
+        this.paseos = data.map(p => {
 
-        // inicializa la vista filtrada
+          // Obtener año real desde FechaCreacion
+          const fechaCreacion = new Date(p.FechaCreacion);
+          const yyyy = fechaCreacion.getFullYear();
+
+          // Convertir p.Fecha a formato YYYY-MM-DD
+          let fechaISO = p.Fecha;
+
+          if (p.Fecha && p.Fecha.includes('/')) {
+            const [dd, mm] = p.Fecha.split('/');
+            fechaISO = `${yyyy}-${mm.padStart(2, '0')}-${dd.padStart(2, '0')}`;
+          }
+
+          return {
+            _id: p._id,
+            FechaCreacion: p.FechaCreacion,
+            Celular: p.Celular,
+            CelularPawwer: p.CelularPawwer,
+            Nombre: p.Nombre,
+            NombrePawwer: p.NombrePawwer,
+            Perro: p.Perro,
+            Anotaciones: p.Anotaciones,
+            Direccion: p.Direccion,
+            TipoServicio: p.TipoServicio,
+            TiempoServicio: p.TiempoServicio,
+            Fecha: p.Fecha,
+            Hora: p.Hora,
+            HoraInicio: p.HoraInicio,
+            Precio: p.Precio,
+            Estado: p.Estado,
+            Strava: p.Strava,
+            MetodoPago: p.MetodoPago,
+            IdPawwer: p.IdPawwer,
+
+            // Campos editables (AJUSTADO)
+            nuevaFecha: fechaISO,        // ← YA EN YYYY-MM-DD
+            nuevaHora: p.Hora,
+            nuevoEstado: p.Estado,
+            nuevaHoraInicio: p.HoraInicio,
+            nuevoPawwer: p.IdPawwer
+          };
+        });
+
+        // inicializa vista filtrada
         this.paseosFiltrados = [...this.paseos];
+
       }, err => {
         console.error('Error cargando paseos:', err);
       });
   }
+
 
   actualizarPaseo(paseo: any) {
     const convertToColombiaTime = (localDateStr: string) => {
@@ -101,7 +120,9 @@ export class PaseosAgendadosComponent implements OnInit  {
       Fecha: paseo.nuevaFecha,
       Hora: paseo.nuevaHora,
       HoraInicio: horaInicioColombia,
-      IdPawwer: paseo.nuevoPawwer
+      IdPawwer: paseo.nuevoPawwer,
+      NombrePawwer: paseo.NombrePawwer,
+      CelularPawwer: paseo.CelularPawwer
     }).subscribe(res => {
       paseo.HoraInicio = horaInicioColombia;
       alert(`✅ Paseo actualizado correctamente`);
@@ -130,4 +151,56 @@ export class PaseosAgendadosComponent implements OnInit  {
   trackById(index: number, item: any) {
     return item._id;
   }
+
+  // ------------------- POPUP PAWWER -------------------
+pawwers: any[] = [];
+pawwersFiltrados: any[] = [];
+popupPawwerVisible: boolean = false;
+paseoSeleccionado: any = null;
+busquedaPawwer: string = '';
+
+abrirPopupPawwer(paseo: any) {
+  this.paseoSeleccionado = paseo;
+  this.popupPawwerVisible = true;
+  this.cargarPawwers();
+}
+
+cerrarPopupPawwer() {
+  this.popupPawwerVisible = false;
+  this.busquedaPawwer = '';
+  this.pawwersFiltrados = [...this.pawwers];
+}
+
+cargarPawwers() {
+  this.http
+    .get<any[]>('https://backendpawwi-production.up.railway.app/api/usuarios')
+    .subscribe(lista => {
+      // Filtra solo Pawwers
+      this.pawwers = lista.filter(u => 
+        u.tipoUsuario?.toLowerCase() === 'pawwer'
+      );
+
+      this.pawwersFiltrados = [...this.pawwers];
+    });
+}
+
+filtrarPawwer() {
+  const txt = this.busquedaPawwer.toLowerCase();
+  this.pawwersFiltrados = this.pawwers.filter(p =>
+    p.nombre.toLowerCase().includes(txt) ||
+    p.celular.toLowerCase().includes(txt)
+  );
+}
+
+seleccionarPawwer(p: any) {
+  if (!this.paseoSeleccionado) return;
+
+  // Asignar automáticamente
+  this.paseoSeleccionado.nuevoPawwer = p._id;
+  this.paseoSeleccionado.NombrePawwer = p.nombre;
+  this.paseoSeleccionado.CelularPawwer = p.celular;
+
+  this.cerrarPopupPawwer();
+}
+
 }

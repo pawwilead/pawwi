@@ -175,6 +175,151 @@ h1 {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
+.btn-copy, .btn-pawwer {
+  background-color: #6c63ff;
+  width: 150px;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-copy:hover, .btn-pawwer:hover {
+  background-color: #5848e0;
+}
+
+/* 🔥 Popup con estilo juvenil igual al otro componente */
+.pawwer-popup {
+  background: linear-gradient(135deg, #fdf1fb, #ffffff);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 25px rgba(18, 10, 43, 0.18);
+  position: relative;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ❌ Botón cerrar */
+.close-popup {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: rgba(0,0,0,0.05);
+  border: none;
+  font-size: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #120A2B;
+  transition: 0.2s;
+}
+.close-popup:hover {
+  background: rgba(0,0,0,0.12);
+}
+
+/* 🏷 Título */
+.titulo-popup {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #120A2B;
+}
+
+/* 🔎 Input de búsqueda */
+.input-search-pawwer {
+  width: 90%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid rgba(18,10,43,0.2);
+  margin-bottom: 15px;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+.input-search-pawwer:focus {
+  border-color: #F7AEF1;
+  box-shadow: 0 0 0 3px rgba(#F7AEF1, 0.3);
+  outline: none;
+}
+
+/* 📜 Lista de Pawwers */
+.pawwer-list {
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(18,10,43,0.1);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* 🐾 Cada item */
+.pawwer-item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(18,10,43,0.06);
+  cursor: pointer;
+  transition: 0.15s;
+  background: #fff;
+}
+.pawwer-item-card:hover {
+  background: #fdf0fb;
+}
+
+/* Nombre y celular */
+.pw-info strong {
+  font-size: 1.05rem;
+  color: #120A2B;
+}
+.pw-info small {
+  display: block;
+  font-size: 0.85rem;
+  color: rgba(18,10,43,0.55);
+  margin-top: 3px;
+}
+
+/* Flecha */
+.pw-icon {
+  font-size: 1.2rem;
+  color: #120A2B;
+}
+
+/* 🔥 MODAL FULLSCREEN */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  backdrop-filter: blur(3px);
+}
+
+/* Contenido centrado */
+.modal-content {
+  animation: fadeIn 0.25s ease-out;
+}
+
+
+@media (max-width: 500px) {
+  .pawwer-popup {
+    padding: 18px;
+  }
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .paseo-card {
