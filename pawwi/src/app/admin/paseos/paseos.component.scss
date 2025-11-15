@@ -309,6 +309,58 @@ h1 {
   }
 }
 
+.pawwer-popup {
+  max-width: 400px;
+  padding: 20px;
+}
+
+pawwer-popup h2 {
+  text-align: center;
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  font-weight: 900;
+  cursor: pointer;
+}
+.input-search {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #666;
+  border-radius: 10px;
+}
+
+.pawwer-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.pawwer-item {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.pawwer-item:hover {
+  background: #f0f0f0;
+}
+
+.btn-pawwer {
+  padding: 8px 12px;
+  background: #4e73df;
+  color: white;
+  border-radius: 5px;
+}
+
+
 @media (max-width: 480px) {
   .modal-content {
     padding: 1rem;

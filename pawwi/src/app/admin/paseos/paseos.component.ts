@@ -76,6 +76,12 @@ export class PaseosComponent implements OnInit {
   textoBusqueda = '';
   filtroEstado = ''; // 👈 Nuevo filtro
 
+  // Popup pawwer
+  popupPawwerVisible: boolean = false;
+  busquedaPawwer: string = "";
+  paseoEditando: any = null; // almacena el paseo que está siendo editado
+
+
   // Opciones posibles para el estado del paseo
   estados = ['Pendiente', 'Cambiar', 'confirmar', 'Cancelado'];
 
@@ -217,19 +223,37 @@ export class PaseosComponent implements OnInit {
 
 
   cargarPaseos() {
-    this.http.get<any[]>('https://backendpawwi-production.up.railway.app/api/leads')
-      .subscribe(data => {
-        this.paseos = data.map(p => ({
+  this.http.get<any[]>('https://backendpawwi-production.up.railway.app/api/leads')
+    .subscribe(data => {
+      this.paseos = data.map(p => {
+
+        // Año tomado desde fechaCreacion
+        const fechaCreacion = new Date(p.fechaCreacion);
+        const yyyy = fechaCreacion.getFullYear();
+
+        // Convertir fecha a ISO usando DD/MM o YYYY-MM-DD
+        let fechaISO = p.fecha;
+
+        // Si viene como DD/MM
+        if (p.fecha && p.fecha.includes('/')) {
+          const [dd, mm] = p.fecha.split('/');
+          fechaISO = `${yyyy}-${mm.padStart(2,'0')}-${dd.padStart(2,'0')}`;
+        }
+
+        return {
           ...p,
           nuevoEstado: p.estado,
           nuevaHora: p.hora,
-          nuevaFecha: p.fecha,
+          nuevaFecha: fechaISO,   // ← YA EN FORMATO YYYY-MM-DD CON EL AÑO REAL
           nuevoPawwer: p.pawwer,
           nuevoPrecio: p.precio,
           nuevoMetodoPago: p.metodoPago
-        }));
+        };
       });
-  }
+    });
+}
+
+
 
   get paseosFiltrados() {
     return this.paseos.filter(p => {
@@ -251,18 +275,12 @@ export class PaseosComponent implements OnInit {
       fechaFormateada = `${dd}/${mm}`;
     }
 
-    // Buscar datos del pawwer seleccionado
-    const pawwerSeleccionado = this.pawwers.find(p => p._id === paseo.nuevoPawwer || p.nombre === paseo.nuevoPawwer);
-
-    // Si lo encuentra, tomar su número de celular
-    const pawwerCelular = pawwerSeleccionado ? pawwerSeleccionado.celular : '';
-
     const payload = {
       estado: paseo.nuevoEstado,
       hora: paseo.nuevaHora,
       fecha: fechaFormateada,
-      pawwer: paseo.nuevoPawwer,        // nombre o id (como lo tengas en el frontend)
-      pawwerCelular: pawwerCelular,     // 👈 nuevo campo
+      pawwer: paseo.pawwerCelular,
+      pawwerCelular: paseo.pawwerCelular,
       precio: paseo.nuevoPrecio,
       metodoPago: paseo.nuevoMetodoPago
     };
@@ -272,7 +290,7 @@ export class PaseosComponent implements OnInit {
         paseo.estado = paseo.nuevoEstado;
         paseo.hora = paseo.nuevaHora;
         paseo.fecha = fechaFormateada;
-        paseo.pawwer = paseo.nuevoPawwer;
+        paseo.pawwer = paseo.pawwerCelular;
         paseo.precio = paseo.nuevoPrecio;
         paseo.metodoPago = paseo.nuevoMetodoPago;
         alert('✅ Paseo actualizado correctamente');
@@ -323,5 +341,29 @@ Reacciona al mensaje si quieres tomar el paseo 🐶`;
       alert('❌ No se pudo copiar el mensaje');
     });
 }
+
+pawwersFiltrados() {
+  const t = this.busquedaPawwer.toLowerCase();
+  return this.pawwers.filter(p =>
+    p.nombre.toLowerCase().includes(t) ||
+    p.celular.toLowerCase().includes(t)
+  );
+}
+
+
+abrirPopupPawwer(paseo: any) {
+  this.paseoEditando = paseo;
+  this.popupPawwerVisible = true;
+  this.busquedaPawwer = "";
+}
+
+seleccionarPawwer(p: any) {
+  if (this.paseoEditando) {
+    this.paseoEditando.nuevoPawwer = p.nombre;  // Guardamos el nombre
+    this.paseoEditando.pawwerCelular = p.celular; // Guardamos el número
+  }
+  this.popupPawwerVisible = false;
+}
+
 
 }
