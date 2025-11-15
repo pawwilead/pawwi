@@ -1,0 +1,178 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  width: 90%;
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 24px;
+
+  background: #fff;
+  border: 3px solid #120A2B;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px #120a2ba9;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #4a4a4a;
+}
+
+/* Input de teléfono con prefijo */
+.phone-input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: #f9f9f9;
+  border: 1px solid #dadada;
+  border-radius: 12px;
+  padding: 0 10px;
+
+  &:focus-within {
+    border-color: #7b5cff;
+    box-shadow: 0 0 6px rgba(123, 92, 255, 0.3);
+  }
+}
+
+.prefix {
+  font-size: 16px;
+  font-weight: 600;
+  color: #555;
+  margin-right: 8px;
+}
+
+.phone-input input {
+  width: 100%;
+  padding: 14px 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* Inputs normales */
+textarea {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+
+  border: 1px solid #dadada;
+  border-radius: 12px;
+
+  outline: none;
+  transition: 0.2s all;
+  resize: none;
+  height: 120px;
+}
+
+textarea:focus {
+  border-color: #7b5cff;
+  box-shadow: 0 0 6px #120A2B44;
+}
+
+/* Botón */
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+
+  background: #120A2B;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #8e3fad;
+}
+
+/* ===== POPUP ===== */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-box {
+  background: #ffffff;
+  width: 80%;
+  max-width: 340px;
+  padding: 25px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.25s ease-out;
+}
+
+.popup-box h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #4a4a4a;
+}
+
+.popup-box p {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Botón OK */
+.popup-box button {
+  padding: 10px 20px;
+  background: #7b5cff;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.popup-box button:hover {
+  background: #6a4ee0;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* Responsive */
+@media (max-width: 480px) {
+  .container {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  input,
+  textarea,
+  button {
+    font-size: 14px;
+  }
+
+  .prefix {
+    font-size: 14px;
+  }
+}

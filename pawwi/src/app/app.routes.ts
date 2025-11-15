@@ -5,6 +5,7 @@ import { PaseosAgendadosComponent } from './admin/paseos-agendados/paseos-agenda
 import { PaseosCompletadosComponent } from './admin/paseos-completados/paseos-completados.component';
 import { LoginComponent } from './login/login.component';
 import { AgendarPawwerComponent } from './agendar-pawwer/agendar-pawwer.component';
+import { MensajeDirectoComponent } from './mensaje-directo/mensaje-directo.component';
 
 export const routes: Routes = [
   { path: 'main', component: MainComponent },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'completados', component: PaseosCompletadosComponent },
   { path: 'login', component: LoginComponent },
   { path: 'schedule', component: AgendarPawwerComponent },
+  { path: 'mensaje-directo', component: MensajeDirectoComponent },
   { path: '', redirectTo: 'schedule', pathMatch: 'full' }
 ];

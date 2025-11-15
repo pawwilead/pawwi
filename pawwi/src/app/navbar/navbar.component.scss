@@ -42,6 +42,26 @@
   transform: translateY(-2px);
 }
 
+.btn2 {
+  background: #ac0048;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn2:hover {
+  background: #eb0e6a;
+  color: #F7AEF1;
+  transform: translateY(-2px);
+}
+
 .divider {
   width: 2px;
   height: 24px;
@@ -94,8 +114,12 @@
 }
 
 @media (max-width: 850px) {
-  .btn {
+  .btn, .btn2 {
     width: 50vw;
+  }
+
+  .division {
+    display: none;
   }
   .hamburger {
     display: flex;

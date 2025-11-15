@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+
+  <h2>Enviar mensaje</h2>
+
+  <div class="phone-input">
+    <span class="prefix">+57</span>
+    <input
+      type="text"
+      placeholder="Número del destinatario"
+      [(ngModel)]="celularDestinatario"
+    />
+  </div>
+
+  <textarea
+    placeholder="Escribe tu mensaje aquí..."
+    [(ngModel)]="mensaje"
+  ></textarea>
+
+  <button (click)="enviarMensaje()">Enviar</button>
+
+</div>
+
+<!-- POPUP DE CONFIRMACIÓN -->
+<div class="popup-overlay" *ngIf="mostrarPopup">
+  <div class="popup-box">
+    <h3>Mensaje enviado</h3>
+    <p>Tu mensaje fue enviado correctamente.</p>
+    <button (click)="cerrarPopup()">OK</button>
+  </div>
+</div>
