@@ -44,6 +44,7 @@ h1 {
     cursor: pointer;
 
     h2 {
+      text-align: center;
       font-size: 1.1rem;
       margin: 0;
       font-weight: 600;
@@ -216,7 +217,6 @@ h1 {
 .modal {
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.55);
@@ -225,7 +225,6 @@ h1 {
   align-items: center;
   z-index: 99999;
   backdrop-filter: blur(4px);       /* 🔥 Blur elegante */
-  padding: 20px;
   animation: fadeIn 0.25s ease-out;
 }
 
@@ -234,12 +233,26 @@ h1 {
   background: #ffffff;
   padding: 24px;
   border-radius: 22px;               /* 🔥 Bordes más suaves */
-  width: 100%;
+  width: 80%;
   max-width: 420px;
   box-shadow: 0 8px 26px rgba(0,0,0,0.16);
   position: relative;
   animation: slideIn 0.3s ease-out;
   border: 1px solid rgba(255,255,255,0.3);
+}
+
+.modal-content h2 {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #120A2B;
+}
+
+.celular-pawwer {
+  margin: 4px 0;
+  color: #777;
+  font-size: 0.85rem;
 }
 
 /* Animación elegante */
@@ -263,13 +276,15 @@ h1 {
 .btn-close {
   position: absolute;
   top: 14px;
-  right: 16px;
-  font-size: 20px;
-  background: none;
+  right: 18px;
+  background: rgba(0, 0, 0, 0.05);
   border: none;
+  font-size: 20px;
+  padding: 6px 10px;
   cursor: pointer;
-  font-weight: 900;
-  color: #444;
+  border-radius: 10px;
+  color: #120A2B;
+  transition: 0.2s;
 }
 
 /* Input de búsqueda */
@@ -308,6 +323,7 @@ h1 {
     background: #f5e6ff; /* 🔥 Hover suave */
   }
 }
+
 
 /* Responsive */
 @media (max-width: 768px) {

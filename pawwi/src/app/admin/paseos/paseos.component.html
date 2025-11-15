@@ -187,7 +187,7 @@
 
         <div class="pawwer-select">
           <button class="btn btn-pawwer" (click)="abrirPopupPawwer(paseo)">
-            Seleccionar Pawwer
+            🐾 Seleccionar Pawwer
           </button>
 
           <span *ngIf="paseo.nuevoPawwer">
@@ -211,10 +211,10 @@
 <div class="modal" *ngIf="popupPawwerVisible">
   <div class="modal-content pawwer-popup">
     <button class="btn btn-close" (click)="popupPawwerVisible = false">
-      X
+      ✖
     </button>
 
-    <h2>Seleccionar Pawwer</h2>
+    <h2>🐾 Seleccionar Pawwer</h2>
     <input 
       type="text" 
       [(ngModel)]="busquedaPawwer"
@@ -228,7 +228,8 @@
         class="pawwer-item"
         (click)="seleccionarPawwer(p)"
       >
-        🐾 <strong>{{ p.nombre }}</strong> — {{ p.celular }}
+      <strong>{{ p.nombre }}</strong>
+      <p class="celular-pawwer">{{ p.celular }}</p>
       </div>
 
       <div *ngIf="pawwersFiltrados().length === 0" class="empty">
