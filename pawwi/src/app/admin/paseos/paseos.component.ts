@@ -253,7 +253,7 @@ export class PaseosComponent implements OnInit {
           nuevoPrecio: p.precio,
           nuevoMetodoPago: p.metodoPago
         };
-      });
+      }).reverse();;
     });
 }
 

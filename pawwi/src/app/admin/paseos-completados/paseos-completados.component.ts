@@ -71,7 +71,7 @@ export class PaseosCompletadosComponent implements OnInit {
             };
           })
         );
-
+        this.paseos = this.paseos.reverse(); 
         this.paseosFiltrados = [...this.paseos];
       });
   }

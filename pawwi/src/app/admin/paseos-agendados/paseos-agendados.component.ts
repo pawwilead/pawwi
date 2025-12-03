@@ -90,7 +90,7 @@ export class PaseosAgendadosComponent implements OnInit  {
             nuevaHoraInicio: p.HoraInicio,
             nuevoPawwer: p.IdPawwer
           };
-        });
+        }).reverse();;
 
         // inicializa vista filtrada
         this.paseosFiltrados = [...this.paseos];

@@ -84,9 +84,12 @@ export class MainComponent implements OnInit {
 
   // ------------------ Usuarios ------------------ //
   cargarUsuarios() {
-    this.http.get<Usuario[]>(this.baseUrl)
-      .subscribe(data => this.usuarios = data.map(u => ({ ...u })));
-  }
+  this.http.get<Usuario[]>(this.baseUrl)
+    .subscribe(data => {
+      const usuariosMapeados = data.map(u => ({ ...u }));
+      this.usuarios = usuariosMapeados.reverse(); 
+    });
+}
 
   actualizarTipo(usuario: Usuario) {
     const nuevoTipo = usuario.nuevoTipo || usuario.tipoUsuario;
