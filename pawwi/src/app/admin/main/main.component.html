@@ -60,19 +60,10 @@
 
   <!-- Filtros -->
   <div class="filters">
-    <label>
-      Buscar por:
-      <select [(ngModel)]="criterioBusqueda">
-        <option value="_id">ID</option>
-        <option value="celular">Celular</option>
-        <option value="nombre">Nombre</option>
-      </select>
-    </label>
-
     <input 
       type="text" 
       [(ngModel)]="textoBusqueda" 
-      placeholder="🔍 Buscar..." />
+      placeholder="🔍 Buscar por nombre o celular..." />
   </div>
 
   <!-- Grid de usuarios -->

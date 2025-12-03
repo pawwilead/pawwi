@@ -153,13 +153,19 @@ export class MainComponent implements OnInit {
 
   // ------------------ Helpers ------------------ //
   get usuariosFiltrados() {
+    const texto = this.textoBusqueda.toLowerCase();
+
     return this.usuarios.filter(u => {
       const coincideTipo = this.filtroTipo === 'todos' || u.tipoUsuario === this.filtroTipo;
-      const valor = (u as any)[this.criterioBusqueda]?.toString().toLowerCase() || '';
-      const coincideBusqueda = valor.includes(this.textoBusqueda.toLowerCase());
+
+      const coincideBusqueda =
+        u.nombre.toLowerCase().includes(texto) ||
+        u.celular.toLowerCase().includes(texto);
+
       return coincideTipo && coincideBusqueda;
     });
   }
+
 
   abrirUsuario(id: string) {
     this.toggleUsuarioOpen = this.toggleUsuarioOpen === id ? null : id;

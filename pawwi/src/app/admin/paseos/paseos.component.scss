@@ -213,10 +213,15 @@ h1 {
   background-color: #5848e0;
 }
 
-/* 🔥 MODAL FULLSCREEN VISUAL */
+/* --------------------------------------------- */
+/*  POPUP PARA AGREGAR PASEO — Igual al otro     */
+/* --------------------------------------------- */
+
+/* El mismo fondo oscuro y blur */
 .modal {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.55);
@@ -224,16 +229,18 @@ h1 {
   justify-content: center;
   align-items: center;
   z-index: 99999;
-  backdrop-filter: blur(4px);       /* 🔥 Blur elegante */
+  backdrop-filter: blur(4px);
   animation: fadeIn 0.25s ease-out;
 }
 
-/* 🔥 POPUP CARD */
+/* Card del popup */
 .modal-content {
+  height: 70vh;
+  overflow: scroll;
   background: #ffffff;
   padding: 24px;
-  border-radius: 22px;               /* 🔥 Bordes más suaves */
-  width: 80%;
+  border-radius: 22px;
+  width: 85%;
   max-width: 420px;
   box-shadow: 0 8px 26px rgba(0,0,0,0.16);
   position: relative;
@@ -241,13 +248,80 @@ h1 {
   border: 1px solid rgba(255,255,255,0.3);
 }
 
-.modal-content h2 {
+/* Título unificado */
+.modal-content h2,
+.modal-content h3 {
   text-align: center;
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 15px;
   color: #120A2B;
 }
+
+/* Botón cerrar igual que el otro */
+.btn-close,
+.close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  font-size: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #120A2B;
+  transition: 0.2s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Inputs del formulario */
+.form-agregar label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #120A2B;
+  margin-bottom: 12px;
+}
+
+.form-agregar select,
+.form-agregar input {
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid #d2d2d2;
+  font-size: 1rem;
+  transition: 0.2s ease;
+  margin-top: 6px;
+
+  &:focus {
+    border-color: #F7AEF1;
+    box-shadow: 0 0 0 3px rgba(247, 174, 241, 0.3);
+    outline: none;
+  }
+}
+
+/* Botón agregar */
+.form-agregar .btn-add {
+  margin-top: 18px;
+  background: #F7AEF1;
+  border: 2px solid #f89df1;
+  padding: 12px 16px;
+  border-radius: 14px;
+  color: #120A2B;
+  font-size: 1rem;
+  width: 100%;
+  font-weight: 700;
+  transition: 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: #f89df1;
+  }
+}
+
 
 .celular-pawwer {
   margin: 4px 0;
@@ -334,4 +408,28 @@ h1 {
       grid-template-columns: 1fr;
     }
   }
+}
+
+.input-a {
+  width: 95% !important;
+}
+
+.paseo-cancelado {
+  background: #ff7c7c !important;
+}
+
+.paseo-pendiente {
+  background: #fdffa2bd !important;
+}
+
+.paseo-oms {
+  background: #a3a3a3 !important;
+}
+
+.paseo-confirmar {
+  background: #8cff5f !important;
+}
+
+.paseo-cambiar {
+  background: #ff9d42 !important;
 }

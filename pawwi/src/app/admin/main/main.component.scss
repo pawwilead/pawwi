@@ -36,11 +36,13 @@ h1 {
   gap: 15px;
   align-items: center;
   margin-bottom: 20px;
+  width: 300px;
 }
 .filters input, 
 .filters select {
   padding: 6px 10px;
   border-radius: 6px;
+  width: 300px;
   border: 1px solid #ccc;
 }
 

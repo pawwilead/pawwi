@@ -1,20 +1,18 @@
 <app-navbar></app-navbar>
 <div class="modal" *ngIf="abrirFormulario">
   <div class="modal-content">
-    <span class="close" (click)="abrirFormulario = false">&times;</span>
-    <h3>➕ Agregar nuevo paseo</h3>
+    <button class="btn-close" (click)="abrirFormulario = false">✖</button>
+    <h2>➕ Agregar nuevo paseo</h2>
     <div class="form-agregar">
 
       <!-- Cliente -->
       <label>
         Cliente:
-        <select [(ngModel)]="nuevoPaseo.clienteId" (change)="seleccionarCliente(nuevoPaseo.clienteId)">
-          <option value="">-- Seleccione Cliente --</option>
-          <option *ngFor="let c of clientes" [value]="c._id">
-            📞 {{ c.celular }} - {{ c.nombre }}
-          </option>
-        </select>
+        <button type="button" class="btn btn-pawwer" (click)="abrirPopupCliente()">
+          {{ nuevoPaseo.nombre ? nuevoPaseo.nombre + ' - ' + nuevoPaseo.celular : 'Seleccionar Cliente' }}
+        </button>
       </label>
+
 
       <!-- Dirección -->
       <label>
@@ -135,7 +133,13 @@
         <p class="subinfo">📍 {{ paseo.direccion }}</p>
         <button (click)="copiarMensaje(paseo)" class="btn btn-copy">Copiar mensaje de grupos</button>
       </div>
-      <span class="estado">{{ paseo.estado }}</span>
+      <span class="estado" [ngClass]="{
+    'paseo-cancelado': paseo.estado === 'Cancelado',
+    'paseo-pendiente': paseo.estado === 'Pendiente',
+    'paseo-oms': paseo.estado === 'Pendiente desde OMS',
+    'paseo-confirmar': paseo.estado === 'confirmar',
+    'paseo-cambiar': paseo.estado === 'Cambiar'
+  }">{{ paseo.estado }}</span>
     </div>
 
     <!-- Body (toggle) -->
@@ -155,17 +159,17 @@
       <div class="editor">
         <label>
           Fecha (DD/MM)
-          <input type="date" [(ngModel)]="paseo.nuevaFecha" />
+          <input class="input-a" type="date" [(ngModel)]="paseo.nuevaFecha" />
         </label>
 
         <label>
           Hora (24h)
-          <input type="time" [(ngModel)]="paseo.nuevaHora" />
+          <input class="input-a"  type="time" [(ngModel)]="paseo.nuevaHora" />
         </label>
 
         <label>
           Precio:
-          <input type="number" [(ngModel)]="paseo.nuevoPrecio" />
+          <input class="input-a"  type="number" [(ngModel)]="paseo.nuevoPrecio" />
         </label>
 
         <label>
@@ -233,6 +237,36 @@
       </div>
 
       <div *ngIf="pawwersFiltrados().length === 0" class="empty">
+        No hay resultados
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal" *ngIf="popupClienteVisible">
+  <div class="modal-content pawwer-popup">
+    <button class="btn btn-close" (click)="popupClienteVisible = false">✖</button>
+
+    <h2>👤 Seleccionar Cliente</h2>
+    <input 
+      type="text" 
+      [(ngModel)]="busquedaCliente"
+      placeholder="🔍 Buscar por nombre o celular"
+      class="input-search"
+    />
+
+    <div class="pawwer-list">
+      <div 
+        *ngFor="let c of clientesFiltrados()" 
+        class="pawwer-item"
+        (click)="seleccionarClientePopup(c)"
+      >
+        <strong>{{ c.nombre }}</strong>
+        <p class="celular-pawwer">{{ c.celular }}</p>
+      </div>
+
+      <div *ngIf="clientesFiltrados().length === 0" class="empty">
         No hay resultados
       </div>
     </div>

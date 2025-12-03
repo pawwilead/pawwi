@@ -81,6 +81,10 @@ export class PaseosComponent implements OnInit {
   busquedaPawwer: string = "";
   paseoEditando: any = null; // almacena el paseo que está siendo editado
 
+  // Popup cliente
+  popupClienteVisible: boolean = false;
+  busquedaCliente: string = '';
+
 
   // Opciones posibles para el estado del paseo
   estados = ['Pendiente', 'Cambiar', 'confirmar', 'Cancelado'];
@@ -365,5 +369,28 @@ seleccionarPawwer(p: any) {
   this.popupPawwerVisible = false;
 }
 
+abrirPopupCliente() {
+  this.popupClienteVisible = true;
+  this.busquedaCliente = '';
+}
+
+clientesFiltrados() {
+  const t = this.busquedaCliente.toLowerCase();
+  return this.clientes.filter(c =>
+    c.nombre.toLowerCase().includes(t) ||
+    c.celular.toLowerCase().includes(t)
+  );
+}
+
+seleccionarClientePopup(cliente: Cliente) {
+  this.nuevoPaseo.clienteId = cliente._id;
+  this.nuevoPaseo.nombre = cliente.nombre;
+  this.nuevoPaseo.celular = cliente.celular;
+  this.nuevoPaseo.direccion = cliente.direccion;
+  this.perrosCliente = cliente.perros || [];
+  this.nuevoPaseo.perro = '';
+  this.nuevoPaseo.anotaciones = '';
+  this.popupClienteVisible = false;
+}
 
 }
