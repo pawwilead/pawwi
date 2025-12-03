@@ -94,6 +94,10 @@
           <small class="fecha">
             🗓️ Registrado: {{ u.creadoEn ? (u.creadoEn | date:'mediumDate') : 'No registrado' }}
           </small>
+          <button class="btn-edit" (click)="abrirPopupEditarUsuario(u)">
+            ✏️ Editar Usuario
+          </button>
+
         </div>
 
         <!-- Lista de perros -->
@@ -224,3 +228,38 @@
   </div>
 </div>
 
+<!-- =================== POPUP EDITAR USUARIO =================== -->
+<div class="modal" *ngIf="popupEditarUsuario">
+  <div class="modal-content">
+    <h3>✏️ Editar Usuario</h3>
+    <p class="modal-subtitle">Modifica la información del usuario</p>
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input [(ngModel)]="usuarioEditando!.nombre" />
+    </div>
+
+    <div class="form-group">
+      <label>Celular</label>
+      <input [(ngModel)]="usuarioEditando!.celular" />
+    </div>
+
+    <div class="form-group">
+      <label>Dirección</label>
+      <input [(ngModel)]="usuarioEditando!.direccion" />
+    </div>
+
+    <div class="form-group">
+      <label>Tipo de Usuario</label>
+      <select [(ngModel)]="usuarioEditando!.tipoUsuario">
+        <option value="cliente">Cliente</option>
+        <option value="pawwer">Pawwer</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" (click)="guardarEdicionUsuario()">Guardar</button>
+      <button class="btn-cancel" (click)="cerrarPopupEditarUsuario()">Cancelar</button>
+    </div>
+  </div>
+</div>

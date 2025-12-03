@@ -13,7 +13,11 @@ export const routes: Routes = [
   { path: 'paseos', component: PaseosAgendadosComponent },
   { path: 'completados', component: PaseosCompletadosComponent },
   { path: 'login', component: LoginComponent },
+
+  { path: '', redirectTo: 'main', pathMatch: 'full' }
+  /*
   { path: 'schedule', component: AgendarPawwerComponent },
   { path: 'mensaje-directo', component: MensajeDirectoComponent },
   { path: '', redirectTo: 'schedule', pathMatch: 'full' }
+  */
 ];

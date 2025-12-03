@@ -60,6 +60,11 @@ export class MainComponent implements OnInit {
   popupUsuarioId: string | null = null;
   popupPerroIndex: number | null = null; // <-- índice del perro en la lista
 
+  // ------------------ CRUD USUARIOS (EDICIÓN) ------------------ //
+  popupEditarUsuario: boolean = false;
+  usuarioEditando: Usuario | null = null;
+
+
   // Dentro de tu componente
   nuevoPerroOpen: { [usuarioId: string]: boolean } = {};
 
@@ -211,4 +216,44 @@ agregarUsuario() {
       }
     });
 }
+
+// ------------------ EDITAR USUARIO ------------------ //
+abrirPopupEditarUsuario(usuario: Usuario) {
+  this.usuarioEditando = { ...usuario }; // clon seguro
+  this.popupEditarUsuario = true;
+}
+
+cerrarPopupEditarUsuario() {
+  this.popupEditarUsuario = false;
+  this.usuarioEditando = null;
+}
+
+guardarEdicionUsuario() {
+  if (!this.usuarioEditando || !this.usuarioEditando._id) return;
+
+  // ✅ SOLO enviamos lo que el backend acepta
+  const payload = {
+    nombre: this.usuarioEditando.nombre,
+    celular: this.usuarioEditando.celular,
+    direccion: this.usuarioEditando.direccion,
+    tipoUsuario: this.usuarioEditando.tipoUsuario
+  };
+
+  this.http.put(
+    `${this.baseUrl}/${this.usuarioEditando._id}`,
+    payload
+  ).subscribe({
+    next: () => {
+      alert('✅ Usuario actualizado correctamente');
+      this.cerrarPopupEditarUsuario();
+      this.cargarUsuarios();
+    },
+    error: (err) => {
+      console.error('🔥 ERROR REAL:', err.error);
+      alert('❌ Error del servidor al actualizar usuario');
+    }
+  });
+}
+
+
 }
