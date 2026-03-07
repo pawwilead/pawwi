@@ -302,6 +302,27 @@ export class PaseosComponent implements OnInit {
       });
   }
 
+  eliminarPaseo(id: string) {
+    // 1. Validación nativa pidiendo confirmación al usuario
+    const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar este paseo? Esta acción no se puede deshacer.');
+    
+    // 2. Si el usuario acepta, procedemos a llamar a la API
+    if (confirmacion) {
+      this.http.delete(`https://backendpawwi-production.up.railway.app/api/leads/${id}`)
+        .subscribe({
+          next: () => {
+            alert('✅ Paseo eliminado correctamente');
+            // Filtramos el arreglo local para quitar el paseo eliminado sin tener que recargar toda la página (Mejor UX)
+            this.paseos = this.paseos.filter(p => p._id !== id);
+          },
+          error: (err) => {
+            console.error('Error al eliminar el paseo:', err);
+            alert('❌ Hubo un error al eliminar el paseo');
+          }
+        });
+    }
+  }
+
   abrirPaseo(id: string) {
     this.toggleOpen = this.toggleOpen === id ? null : id;
   }

@@ -102,10 +102,15 @@ export class PaseosAgendadosComponent implements OnInit  {
 
 
   actualizarPaseo(paseo: any) {
+    // 1. Lógica para formatear la fecha a DD/MM
+    let fechaFormateada = paseo.nuevaFecha; 
+    const [yyyy, mm, dd] = paseo.nuevaFecha.split('-');
+    fechaFormateada = `${dd}/${mm}`; // Resultado: DD/MM
+    
     const convertToColombiaTime = (localDateStr: string) => {
-      const localDate = new Date(localDateStr); // La hora que seleccionó el usuario
-      // Offset Colombia UTC-5
-      const colombiaOffset = -5 * 60; // en minutos
+      if (!localDateStr) return null;
+      const localDate = new Date(localDateStr);
+      const colombiaOffset = -5 * 60; 
       const utc = localDate.getTime() + localDate.getTimezoneOffset() * 60000;
       const colombiaDate = new Date(utc + colombiaOffset * 60000);
 
@@ -117,7 +122,7 @@ export class PaseosAgendadosComponent implements OnInit  {
 
     this.http.put(`https://backendpawwi-production.up.railway.app/api/paseos/${paseo._id}`, {
       Estado: paseo.nuevoEstado,
-      Fecha: paseo.nuevaFecha,
+      Fecha: fechaFormateada,
       Hora: paseo.nuevaHora,
       HoraInicio: horaInicioColombia,
       IdPawwer: paseo.nuevoPawwer,
@@ -131,6 +136,28 @@ export class PaseosAgendadosComponent implements OnInit  {
       console.error('Error actualizando paseo:', err);
       alert('❌ Error al actualizar. Revisa la consola.');
     });
+  }
+
+  eliminarPaseo(id: string) {
+    // Validación de seguridad para confirmar la acción
+    const confirmar = window.confirm('¿Estás seguro de que deseas eliminar este paseo agendado? Esta acción es permanente.');
+
+    if (confirmar) {
+      // Petición DELETE a la API usando el ID del objeto
+      this.http.delete(`https://backendpawwi-production.up.railway.app/api/paseos/${id}`)
+        .subscribe({
+          next: () => {
+            alert('✅ Paseo eliminado con éxito');
+            // Actualización de la lista local para no recargar la página
+            this.paseos = this.paseos.filter(p => p._id !== id);
+            window.location.reload();
+          },
+          error: (err) => {
+            console.error('Error al borrar el paseo:', err);
+            alert('❌ No se pudo eliminar el paseo');
+          }
+        });
+    }
   }
 
 

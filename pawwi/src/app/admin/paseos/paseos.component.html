@@ -200,9 +200,15 @@
         </div>
       </label>
 
+      <div class="botones-accion">
         <button (click)="actualizarPaseo(paseo)" class="btn btn-save">
           Guardar Cambios
         </button>
+        
+        <button (click)="eliminarPaseo(paseo._id)" class="btn btn-delete">
+          🗑️ Eliminar
+        </button>
+      </div>
       </div>
     </div>
   </div>

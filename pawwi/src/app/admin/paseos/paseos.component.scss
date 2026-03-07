@@ -138,6 +138,32 @@ h1 {
         opacity: 0.9;
       }
     }
+
+    /* Contenedor para alinear los botones del editor */
+    .botones-accion {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+
+      .btn {
+        flex: 1; /* Para que ambos botones tengan el mismo ancho */
+        margin-top: 0; /* Reseteamos el margin top porque ya lo maneja el contenedor */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+      }
+    }
+
+    /* Estilos para el botón de eliminar */
+    .btn-delete {
+      background: #ff4d4d;
+      color: white;
+
+      &:hover {
+        background: #e60000;
+      }
+    }
   }
 }
 

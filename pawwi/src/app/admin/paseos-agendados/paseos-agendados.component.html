@@ -98,10 +98,17 @@
         <p><strong>Nombre Pawwer:</strong> {{ paseo.NombrePawwer }}</p>
         <p><strong>Celular Pawwer:</strong> {{ paseo.CelularPawwer }}</p>
 
+        <div class="editor">
+          <div class="acciones-editor">
+            <button (click)="actualizarPaseo(paseo)" class="btn btn-save">
+              Guardar Cambios
+            </button>
 
-        <button (click)="actualizarPaseo(paseo)" class="btn btn-save">
-          Guardar Cambios
-        </button>
+            <button (click)="eliminarPaseo(paseo._id)" class="btn btn-delete">
+              🗑️ Eliminar Paseo
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
